@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/SunnyTong2019/dev-connector#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "config": "^3.3.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.2"
   }
 }
