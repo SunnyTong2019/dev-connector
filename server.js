@@ -15,6 +15,8 @@ mongoose.connect(mongoURI, {
   useUnifiedTopology: true
 });
 
+app.use(express.json());
+
 app.use("/api/auth", authRoute);
 app.use("/api/profile", profileRoute);
 app.use("/api/posts", postsRoute);
