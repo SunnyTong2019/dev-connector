@@ -7,6 +7,8 @@ const { check, validationResult } = require("express-validator");
 const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const jwt = require("jsonwebtoken");
+const jwtSecret = config.get("jwtSecret");
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
@@ -14,13 +16,9 @@ mongoose.connect(mongoURI, {
   useUnifiedTopology: true
 });
 
-router.get("/", function(req, res) {
-  res.send("auth route");
-});
-
-// @router  post
-// @desc    register user
-// @status  public
+// @router  POST /api/auth/register
+// @desc    Register user
+// @access  Public
 router.post(
   "/register",
   [
@@ -41,9 +39,9 @@ router.post(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    let { name, email, password } = req.body;
+    let { email, password } = req.body;
 
-    // check if the email exists, it not, save the user
+    // check if the email exists, it not, hash password and save the user to DB
     User.findOne({ email: email }, (err, user) => {
       if (err) {
         return res.status(500).json({ errors: [{ msg: "Database Error" }] });
@@ -58,13 +56,13 @@ router.post(
       const salt = bcrypt.genSaltSync(saltRounds);
       const hash = bcrypt.hashSync(password, salt);
       req.body.password = hash;
-      User.create(req.body).then(newUser => res.json(newUser));
+
+      User.create(req.body).then(newUser => {
+        // use JWT to return a token
+        let token = jwt.sign({ userID: newUser.id }, jwtSecret);
+        res.json(token);
+      });
     });
-
-    // if not, hash password and save the user
-    // return a token
-
-    //res.send("auth route");
   }
 );
 

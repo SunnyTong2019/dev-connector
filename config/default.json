@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://Admin:Admin123456@clusterfcc-svkq2.azure.mongodb.net/test?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://Admin:Admin123456@clusterfcc-svkq2.azure.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "keyboardcat"
 }
