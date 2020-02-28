@@ -1,7 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const config = require("config");
-const mongoURI = config.get("mongoURI");
 const authRoute = require("./routes/api/auth");
 const profileRoute = require("./routes/api/profile");
 const postsRoute = require("./routes/api/posts");
