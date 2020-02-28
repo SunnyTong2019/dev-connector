@@ -1,20 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 const config = require("config");
-const mongoURI = config.get("mongoURI");
 const { check, validationResult } = require("express-validator");
 const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const jwtSecret = config.get("jwtSecret");
-
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
-});
 
 // @router  POST /api/auth/register
 // @desc    Register user

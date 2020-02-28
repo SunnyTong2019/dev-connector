@@ -1,4 +1,7 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const config = require("config");
+const mongoURI = config.get("mongoURI");
 const authRoute = require("./routes/api/auth");
 const profileRoute = require("./routes/api/profile");
 const postsRoute = require("./routes/api/posts");
@@ -6,6 +9,23 @@ const postsRoute = require("./routes/api/posts");
 const app = express();
 
 const PORT = process.env.PORT || 5000;
+
+mongoose.connect(
+  mongoURI,
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+  },
+  err => {
+    if (err) {
+      console.log(err.message);
+      // Exit process with failure
+      process.exit(1);
+    }
+    console.log("DB connected....");
+  }
+);
 
 app.use(express.json());
 
