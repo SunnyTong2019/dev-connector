@@ -10,11 +10,6 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
 app.use(express.json());
 
 app.use("/api/auth", authRoute);

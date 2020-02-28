@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/SunnyTong2019/dev-connector#readme",
   "dependencies": {
+    "bcrypt": "^4.0.0",
     "config": "^3.3.0",
     "express": "^4.17.1",
     "express-validator": "^6.4.0",
