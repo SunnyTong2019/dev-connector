@@ -66,4 +66,55 @@ router.post(
   }
 );
 
+// @router  POST /api/auth/login
+// @desc    Login user
+// @access  Public
+router.post(
+  "/login",
+  [
+    check("email")
+      .isEmail()
+      .withMessage("Please provide valid email address"),
+    check("password")
+      .not()
+      .isEmpty()
+      .withMessage("password is required")
+  ],
+  function(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    let { email, password } = req.body;
+
+    // check if the email exists
+    // if yes, check if password matches
+    User.findOne({ email: email }, (err, user) => {
+      if (err) {
+        return res.status(500).json({ errors: [{ msg: "Database Error" }] });
+      }
+
+      if (!user) {
+        return res
+          .status(422)
+          .json({ errors: [{ msg: "Invalid Credentials" }] });
+      }
+
+      const hash = user.password;
+      bcrypt.compare(password, hash).then(function(result) {
+        if (result) {
+          // if password matches, return a token
+          let token = jwt.sign({ userID: user.id }, jwtSecret);
+          res.json(token);
+        } else {
+          return res
+            .status(422)
+            .json({ errors: [{ msg: "Invalid Credentials" }] });
+        }
+      });
+    });
+  }
+);
+
 module.exports = router;
