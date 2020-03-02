@@ -58,11 +58,15 @@ router.post(
       const hash = bcrypt.hashSync(password, salt);
       req.body.password = hash;
 
-      User.create(req.body).then(newUser => {
-        // use JWT to return a token
-        let token = jwt.sign({ userID: newUser.id }, jwtSecret);
-        res.json(token);
-      });
+      User.create(req.body)
+        .then(newUser => {
+          // use JWT to return a token
+          let token = jwt.sign({ userID: newUser.id }, jwtSecret);
+          res.json(token);
+        })
+        .catch(err =>
+          res.status(500).json({ errors: [{ msg: "Database Error" }] })
+        );
     });
   }
 );
@@ -103,6 +107,7 @@ router.post(
       }
 
       const hash = user.password;
+
       bcrypt.compare(password, hash).then(function(result) {
         if (result) {
           // if password matches, return a token

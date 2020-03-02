@@ -8,22 +8,8 @@ function verifyToken(req, res, next) {
     const token = req.headers["x-access-token"];
     const decoded = jwt.verify(token, jwtSecret);
     const userID = decoded.userID;
-
-    User.findOne({ _id: userID }, (err, user) => {
-      if (err) {
-        return res.status(500).json({ errors: [{ msg: "Database Error" }] });
-      }
-
-      if (!user) {
-        return res
-          .status(422)
-          .json({ errors: [{ msg: "User doesn't exist" }] });
-      }
-
-      req.userID = userID;
-
-      next();
-    });
+    req.userID = userID;
+    next();
   } catch (err) {
     return res.status(422).json({ errors: [{ msg: "Invalid Token" }] });
   }
