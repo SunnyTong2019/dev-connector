@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const jwtSecret = config.get("jwtSecret");
-const User = require("../models/User");
 
 function verifyToken(req, res, next) {
   try {
