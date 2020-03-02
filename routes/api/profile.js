@@ -63,10 +63,32 @@ router.post(
 // @route    GET api/profile
 // @desc     Get all profiles
 // @access   Public
+router.get("/", function(req, res) {
+  Profile.find()
+    .then(profiles => {
+      if (profiles.length === 0)
+        return res.status(400).json({ errors: [{ msg: "No Profiles" }] });
+      res.json(profiles);
+    })
+    .catch(err =>
+      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+    );
+});
 
 // @route    GET api/profile/user/:user_id
 // @desc     Get profile by user ID
 // @access   Public
+router.get("/user/:user_id", function(req, res) {
+  Profile.findOne({ user: req.params.user_id })
+    .then(profile => {
+      if (!profile)
+        return res.status(400).json({ errors: [{ msg: "Profile Not Found" }] });
+      res.json(profile);
+    })
+    .catch(err =>
+      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+    );
+});
 
 // @route    DELETE api/profile
 // @desc     Delete profile, user & posts
