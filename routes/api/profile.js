@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
+const User = require("../../models/User");
 const { check, validationResult } = require("express-validator");
 
 // @route    GET api/profile/me
@@ -91,8 +92,19 @@ router.get("/user/:user_id", function(req, res) {
 });
 
 // @route    DELETE api/profile
-// @desc     Delete profile, user & posts
+// @desc     Delete current user, its profile, and its posts
 // @access   Private
+
+router.delete("/", auth, function(req, res) {
+  //@to-do delete user's posts
+
+  Profile.findOneAndDelete({ user: req.userID })
+    .then(profile => User.findOneAndDelete({ _id: req.userID }))
+    .then(user => res.send("User Deleted"))
+    .catch(err =>
+      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+    );
+});
 
 // @route    PUT api/profile/experience
 // @desc     Add profile experience
