@@ -8,6 +8,7 @@ const auth = require("../../middleware/auth");
 // @access   Private
 router.get("/", auth, function(req, res) {
   User.findOne({ _id: req.userID })
+    .select("-password")
     .then(user => res.json(user))
     .catch(err =>
       res.status(500).json({ errors: [{ msg: "Database Error" }] })
