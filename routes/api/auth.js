@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const jwtSecret = config.get("jwtSecret");
+const gravatar = require("gravatar");
 
 // @router  POST /api/auth/register
 // @desc    Register user
@@ -44,6 +45,14 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: "Email already exists" }] });
       }
+
+      const avatar = gravatar.url(email, {
+        s: "200",
+        r: "pg",
+        d: "mm"
+      });
+
+      req.body.avatar = avatar;
 
       const salt = bcrypt.genSaltSync(saltRounds);
       const hash = bcrypt.hashSync(password, salt);
