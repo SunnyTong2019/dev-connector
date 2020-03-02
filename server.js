@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const config = require("config");
 const mongoURI = config.get("mongoURI");
 const authRoute = require("./routes/api/auth");
+const userRoute = require("./routes/api/user");
 const profileRoute = require("./routes/api/profile");
 const postsRoute = require("./routes/api/posts");
 
@@ -30,6 +31,7 @@ mongoose.connect(
 app.use(express.json());
 
 app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
 app.use("/api/profile", profileRoute);
 app.use("/api/posts", postsRoute);
 

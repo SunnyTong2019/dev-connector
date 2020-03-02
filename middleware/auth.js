@@ -20,6 +20,8 @@ function verifyToken(req, res, next) {
           .json({ errors: [{ msg: "User doesn't exist" }] });
       }
 
+      req.userID = userID;
+
       next();
     });
   } catch (err) {
