@@ -168,12 +168,70 @@ router.put("/experience/:exp_id", auth, function(req, res) {
 });
 
 // @route    PUT api/profile/education
-// @desc     Add profile education
+// @desc     Add education
 // @access   Private
+router.put(
+  "/education",
+  [
+    auth,
+    [
+      check("school")
+        .not()
+        .isEmpty()
+        .withMessage("School is required"),
+      check("degree")
+        .not()
+        .isEmpty()
+        .withMessage("Degree is required"),
+      check("fieldofstudy")
+        .not()
+        .isEmpty()
+        .withMessage("Field Of Study is required"),
+      check("from")
+        .not()
+        .isEmpty()
+        .withMessage("From Date is required")
+    ]
+  ],
+  function(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    Profile.findOneAndUpdate(
+      { user: req.userID },
+      { $push: { education: req.body } },
+      { new: true }
+    )
+      .then(profile => {
+        res.json(profile);
+      })
+      .catch(err =>
+        res.status(500).json({ errors: [{ msg: "Database Error" }] })
+      );
+  }
+);
 
 // @route    DELETE api/profile/education/:edu_id
 // @desc     Delete education from profile
 // @access   Private
+router.put("/education/:edu_id", auth, function(req, res) {
+  Profile.findOne({ user: req.userID })
+    .then(profile => {
+      let education = profile.education;
+      education = education.filter(edu => edu._id != req.params.edu_id);
+      return Profile.findOneAndUpdate(
+        { user: req.userID },
+        { $set: { education: education } },
+        { new: true }
+      );
+    })
+    .then(profile => res.json(profile))
+    .catch(err =>
+      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+    );
+});
 
 // @route    GET api/profile/github/:username
 // @desc     Get user repos from Github
