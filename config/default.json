@@ -1,4 +1,6 @@
 {
   "mongoURI": "mongodb+srv://Admin:Admin123456@clusterfcc-svkq2.azure.mongodb.net/test?retryWrites=true&w=majority",
-  "jwtSecret": "keyboardcat"
+  "jwtSecret": "keyboardcat",
+  "githubClientID": "b4c1c335e14b562cd32c",
+  "githubClientSecret": "7e098d63cdf28b14f2b1856b6d2fd65fcf097e88"
 }

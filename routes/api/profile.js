@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const config = require("config");
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 const { check, validationResult } = require("express-validator");
+const request = require("request");
 
 // @route    GET api/profile/me
 // @desc     Get current user profile
@@ -234,6 +236,31 @@ router.put("/education/:edu_id", auth, function(req, res) {
 });
 
 // @route    GET api/profile/github/:username
-// @desc     Get user repos from Github
+// @desc     Get repos from Github user
 // @access   Public
+router.get("/github/:username", function(req, res) {
+  const options = {
+    uri: `https://api.github.com/users/${
+      req.params.username
+    }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+      "githubClientID"
+    )}&client_secret=${config.get("githubClientSecret")}`,
+    method: "GET",
+    headers: {
+      "user-agent": "node.js"
+    }
+  };
+
+  request(options, (error, response, body) => {
+    if (error)
+      return res.status(500).json({ errors: [{ msg: "Server Error" }] });
+    if (response.statusCode !== 200) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "Github Profile Not Found" }] });
+    }
+    res.json(JSON.parse(body));
+  });
+});
+
 module.exports = router;
