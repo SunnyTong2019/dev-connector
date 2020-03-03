@@ -6,7 +6,7 @@ const User = require("../../models/User");
 const { check, validationResult } = require("express-validator");
 
 // @route    GET api/profile/me
-// @desc     Get current user's profile
+// @desc     Get current user profile
 // @access   Private
 router.get("/me", auth, function(req, res) {
   Profile.findOne({ user: req.userID })
@@ -94,9 +94,8 @@ router.get("/user/:user_id", function(req, res) {
 // @route    DELETE api/profile
 // @desc     Delete current user, its profile, and its posts
 // @access   Private
-
 router.delete("/", auth, function(req, res) {
-  //@to-do delete user's posts
+  // @to-do delete user's posts
 
   Profile.findOneAndDelete({ user: req.userID })
     .then(profile => User.findOneAndDelete({ _id: req.userID }))
@@ -107,12 +106,66 @@ router.delete("/", auth, function(req, res) {
 });
 
 // @route    PUT api/profile/experience
-// @desc     Add profile experience
+// @desc     Add experience
 // @access   Private
+router.put(
+  "/experience",
+  [
+    auth,
+    [
+      check("title")
+        .not()
+        .isEmpty()
+        .withMessage("Title is required"),
+      check("company")
+        .not()
+        .isEmpty()
+        .withMessage("Company is required"),
+      check("from")
+        .not()
+        .isEmpty()
+        .withMessage("From Date is required")
+    ]
+  ],
+  function(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    Profile.findOneAndUpdate(
+      { user: req.userID },
+      { $push: { experience: req.body } },
+      { new: true }
+    )
+      .then(profile => {
+        res.json(profile);
+      })
+      .catch(err =>
+        res.status(500).json({ errors: [{ msg: "Database Error" }] })
+      );
+  }
+);
 
 // @route    DELETE api/profile/experience/:exp_id
 // @desc     Delete experience from profile
 // @access   Private
+router.put("/experience/:exp_id", auth, function(req, res) {
+  Profile.findOne({ user: req.userID })
+    .then(profile => {
+      let experience = profile.experience;
+      experience = experience.filter(exp => exp._id != req.params.exp_id);
+      return Profile.findOneAndUpdate(
+        { user: req.userID },
+        { $set: { experience: experience } },
+        { new: true }
+      );
+    })
+    .then(profile => res.json(profile))
+    .catch(err =>
+      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+    );
+});
 
 // @route    PUT api/profile/education
 // @desc     Add profile education
