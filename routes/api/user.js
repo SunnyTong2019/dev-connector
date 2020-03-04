@@ -11,11 +11,11 @@ router.get("/", auth, function(req, res) {
     .select("-password")
     .then(user => {
       if (!user)
-        return res.status(400).json({ errors: [{ msg: "User Not Found" }] });
+        return res.status(400).json({ errors: [{ msg: "User not found" }] });
       res.json(user);
     })
     .catch(err =>
-      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+      res.status(500).json({ errors: [{ msg: "Database error" }] })
     );
 });
 

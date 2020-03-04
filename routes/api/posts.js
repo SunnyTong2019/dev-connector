@@ -35,22 +35,56 @@ router.post(
         res.json(post);
       })
       .catch(err =>
-        res.status(500).json({ errors: [{ msg: "Database Error" }] })
+        res.status(500).json({ errors: [{ msg: "Database error" }] })
       );
   }
 );
 
 // @route    GET api/posts
-// @desc     Get all posts
+// @desc     Get all posts from current user
 // @access   Private
+router.get("/", auth, function(req, res) {
+  Post.find({ user: req.userID })
+    .then(posts => {
+      if (posts.length === 0)
+        return res.status(400).json({ errors: [{ msg: "No posts" }] });
+      res.json(posts);
+    })
+    .catch(err =>
+      res.status(500).json({ errors: [{ msg: "Database error" }] })
+    );
+});
 
 // @route    GET api/posts/:postid
 // @desc     Get post by Post ID
 // @access   Private
+router.get("/:postid", auth, function(req, res) {
+  Post.findById(req.params.postid)
+    .then(post => {
+      if (!post)
+        return res.status(400).json({ errors: [{ msg: "Post not found" }] });
+      res.json(post);
+    })
+    .catch(err => {
+      res.status(500).json({ errors: [{ msg: "Database error" }] });
+    });
+});
 
 // @route    DELETE api/posts/:postid
 // @desc     Delete a post
 // @access   Private
+router.delete("/:postid", auth, function(req, res) {
+  Post.findById(req.params.postid)
+    .then(post => {
+      if (!post)
+        return res.status(400).json({ errors: [{ msg: "Post not found" }] });
+      post.remove();
+      res.json({ msg: "Post removed" });
+    })
+    .catch(err => {
+      res.status(500).json({ errors: [{ msg: "Database error" }] });
+    });
+});
 
 // @route    PUT api/posts/like/:postid
 // @desc     Like a post

@@ -14,11 +14,11 @@ router.get("/me", auth, function(req, res) {
   Profile.findOne({ user: req.userID })
     .then(profile => {
       if (!profile)
-        return res.status(400).json({ errors: [{ msg: "Profile Not Found" }] });
+        return res.status(400).json({ errors: [{ msg: "Profile not found" }] });
       res.json(profile);
     })
     .catch(err =>
-      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+      res.status(500).json({ errors: [{ msg: "Database error" }] })
     );
 });
 
@@ -66,7 +66,7 @@ router.post(
         res.json(profile);
       })
       .catch(err =>
-        res.status(500).json({ errors: [{ msg: "Database Error" }] })
+        res.status(500).json({ errors: [{ msg: "Database error" }] })
       );
   }
 );
@@ -78,11 +78,11 @@ router.get("/", function(req, res) {
   Profile.find()
     .then(profiles => {
       if (profiles.length === 0)
-        return res.status(400).json({ errors: [{ msg: "No Profiles" }] });
+        return res.status(400).json({ errors: [{ msg: "No profiles" }] });
       res.json(profiles);
     })
     .catch(err =>
-      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+      res.status(500).json({ errors: [{ msg: "Database error" }] })
     );
 });
 
@@ -93,11 +93,11 @@ router.get("/user/:user_id", function(req, res) {
   Profile.findOne({ user: req.params.user_id })
     .then(profile => {
       if (!profile)
-        return res.status(400).json({ errors: [{ msg: "Profile Not Found" }] });
+        return res.status(400).json({ errors: [{ msg: "Profile not found" }] });
       res.json(profile);
     })
     .catch(err =>
-      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+      res.status(500).json({ errors: [{ msg: "Database error" }] })
     );
 });
 
@@ -109,9 +109,9 @@ router.delete("/", auth, function(req, res) {
 
   Profile.findOneAndDelete({ user: req.userID })
     .then(profile => User.findOneAndDelete({ _id: req.userID }))
-    .then(user => res.send("User Deleted"))
+    .then(user => res.send("User removed"))
     .catch(err =>
-      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+      res.status(500).json({ errors: [{ msg: "Database error" }] })
     );
 });
 
@@ -134,7 +134,7 @@ router.put(
       check("from")
         .not()
         .isEmpty()
-        .withMessage("From Date is required")
+        .withMessage("From date is required")
     ]
   ],
   function(req, res) {
@@ -152,11 +152,11 @@ router.put(
         if (!profile)
           return res
             .status(400)
-            .json({ errors: [{ msg: "Profile Not Found" }] });
+            .json({ errors: [{ msg: "Profile not found" }] });
         res.json(profile);
       })
       .catch(err =>
-        res.status(500).json({ errors: [{ msg: "Database Error" }] })
+        res.status(500).json({ errors: [{ msg: "Database error" }] })
       );
   }
 );
@@ -177,7 +177,7 @@ router.put("/experience/:exp_id", auth, function(req, res) {
     })
     .then(profile => res.json(profile))
     .catch(err =>
-      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+      res.status(500).json({ errors: [{ msg: "Database error" }] })
     );
 });
 
@@ -200,11 +200,11 @@ router.put(
       check("fieldofstudy")
         .not()
         .isEmpty()
-        .withMessage("Field Of Study is required"),
+        .withMessage("Field of study is required"),
       check("from")
         .not()
         .isEmpty()
-        .withMessage("From Date is required")
+        .withMessage("From date is required")
     ]
   ],
   function(req, res) {
@@ -222,11 +222,11 @@ router.put(
         if (!profile)
           return res
             .status(400)
-            .json({ errors: [{ msg: "Profile Not Found" }] });
+            .json({ errors: [{ msg: "Profile not found" }] });
         res.json(profile);
       })
       .catch(err =>
-        res.status(500).json({ errors: [{ msg: "Database Error" }] })
+        res.status(500).json({ errors: [{ msg: "Database error" }] })
       );
   }
 );
@@ -247,7 +247,7 @@ router.put("/education/:edu_id", auth, function(req, res) {
     })
     .then(profile => res.json(profile))
     .catch(err =>
-      res.status(500).json({ errors: [{ msg: "Database Error" }] })
+      res.status(500).json({ errors: [{ msg: "Database error" }] })
     );
 });
 
@@ -269,11 +269,11 @@ router.get("/github/:username", function(req, res) {
 
   request(options, (error, response, body) => {
     if (error)
-      return res.status(500).json({ errors: [{ msg: "Server Error" }] });
+      return res.status(500).json({ errors: [{ msg: "Server error" }] });
     if (response.statusCode !== 200) {
       return res
         .status(400)
-        .json({ errors: [{ msg: "Github Profile Not Found" }] });
+        .json({ errors: [{ msg: "Github profile not found" }] });
     }
     res.json(JSON.parse(body));
   });

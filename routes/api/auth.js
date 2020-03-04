@@ -18,13 +18,13 @@ router.post(
     check("name")
       .not()
       .isEmpty()
-      .withMessage("name is required"),
+      .withMessage("Name is required"),
     check("email")
       .isEmail()
       .withMessage("Please provide valid email address"),
     check("password")
       .isLength({ min: 6 })
-      .withMessage("password must be at least 6 chars long")
+      .withMessage("Password must be at least 6 chars long")
   ],
   function(req, res) {
     const errors = validationResult(req);
@@ -37,7 +37,7 @@ router.post(
     // check if the email exists, it not, hash password and save the user to DB
     User.findOne({ email: email }, (err, user) => {
       if (err) {
-        return res.status(500).json({ errors: [{ msg: "Database Error" }] });
+        return res.status(500).json({ errors: [{ msg: "Database error" }] });
       }
 
       if (user) {
@@ -65,7 +65,7 @@ router.post(
           res.json(token);
         })
         .catch(err =>
-          res.status(500).json({ errors: [{ msg: "Database Error" }] })
+          res.status(500).json({ errors: [{ msg: "Database error" }] })
         );
     });
   }
@@ -83,7 +83,7 @@ router.post(
     check("password")
       .not()
       .isEmpty()
-      .withMessage("password is required")
+      .withMessage("Password is required")
   ],
   function(req, res) {
     const errors = validationResult(req);
@@ -97,13 +97,13 @@ router.post(
     // if yes, check if password matches
     User.findOne({ email: email }, (err, user) => {
       if (err) {
-        return res.status(500).json({ errors: [{ msg: "Database Error" }] });
+        return res.status(500).json({ errors: [{ msg: "Database error" }] });
       }
 
       if (!user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: "Invalid Credentials" }] });
+          .json({ errors: [{ msg: "Invalid credentials" }] });
       }
 
       const hash = user.password;
@@ -116,7 +116,7 @@ router.post(
         } else {
           return res
             .status(400)
-            .json({ errors: [{ msg: "Invalid Credentials" }] });
+            .json({ errors: [{ msg: "Invalid credentials" }] });
         }
       });
     });

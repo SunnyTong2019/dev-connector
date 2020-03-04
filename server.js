@@ -37,7 +37,7 @@ app.use("/api/profile", profileRoute);
 app.use("/api/posts", postsRoute);
 
 app.get("/", function(req, res) {
-  res.send("Hello World");
+  res.send("Hello world");
 });
 
 app.listen(PORT, () => console.log("App is listening on port: " + PORT));
