@@ -55,7 +55,6 @@ router.post(
     })
       .then(profile => {
         res.json(profile);
-        console.log(profile.skills);
       })
       .catch(err =>
         res.status(500).json({ errors: [{ msg: "Database Error" }] })
@@ -141,6 +140,10 @@ router.put(
       { new: true }
     )
       .then(profile => {
+        if (!profile)
+          return res
+            .status(400)
+            .json({ errors: [{ msg: "Profile Not Found" }] });
         res.json(profile);
       })
       .catch(err =>
@@ -207,6 +210,10 @@ router.put(
       { new: true }
     )
       .then(profile => {
+        if (!profile)
+          return res
+            .status(400)
+            .json({ errors: [{ msg: "Profile Not Found" }] });
         res.json(profile);
       })
       .catch(err =>
