@@ -74,7 +74,8 @@ router.get("/:postid", auth, function(req, res) {
 // @desc     Delete a post
 // @access   Private
 router.delete("/:postid", auth, function(req, res) {
-  Post.findById(req.params.postid)
+  // Post can only be deleted by the post creator/owner, so find post with both post id and user
+  Post.findOne({ _id: req.params.postid, user: req.userID })
     .then(post => {
       if (!post)
         return res.status(400).json({ errors: [{ msg: "Post not found" }] });
@@ -134,7 +135,7 @@ router.put("/unlike/:postid", auth, function(req, res) {
       }
 
       let newLikes = post.likes.filter(like => {
-        // typeof like.user is object. typeof req.userID is string. So need "toString()" on like.user
+        // typeof like.user is object. typeof req.userID is string. So need "toString()" on like.user. Another way is to use "!=" instead of "!==".
         return like.user.toString() !== req.userID;
       });
 
@@ -153,9 +154,90 @@ router.put("/unlike/:postid", auth, function(req, res) {
 // @route    PUT api/posts/comments/:postid
 // @desc     Add comment to a post
 // @access   Private
+router.put(
+  "/comments/:postid",
+  [
+    auth,
+    [
+      check("text")
+        .not()
+        .isEmpty()
+        .withMessage("Text is required")
+    ]
+  ],
+  function(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    Post.findOne({ _id: req.params.postid })
+      .then(post => {
+        if (!post)
+          return res.status(400).json({ errors: [{ msg: "Post not found" }] });
+
+        let newComment = {
+          text: req.body.text,
+          user: req.userID
+        };
+
+        return Post.findOneAndUpdate(
+          { _id: req.params.postid },
+          { $push: { comments: newComment } },
+          { new: true }
+        );
+      })
+      .then(post => res.json(post))
+      .catch(err =>
+        res.status(500).json({ errors: [{ msg: "Database error" }] })
+      );
+  }
+);
 
 // @route    PUT api/posts/comments/:postid/:commentid
 // @desc     Delete comment
 // @access   Private
+router.put("/comments/:postid/:commentid", auth, function(req, res) {
+  Post.findOne({ _id: req.params.postid })
+    .then(post => {
+      if (!post)
+        return res.status(400).json({ errors: [{ msg: "Post not found" }] });
+
+      let targetComment = post.comments.filter(
+        comment => comment._id == req.params.commentid
+      );
+
+      if (
+        // if comment id doesn't exist
+        targetComment.length === 0
+      ) {
+        return res.status(400).json({ errors: [{ msg: "Comment not found" }] });
+      } else if (
+        // if comment exists, but doesn't belong to the user who wants to delete
+        targetComment[0].user != req.userID
+      ) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "User not authorized" }] });
+      } else {
+        // if comment exists, and belongs to the user
+        let comments = post.comments;
+        comments = comments.filter(
+          comment => comment._id != req.params.commentid
+        );
+
+        return Post.findOneAndUpdate(
+          { _id: req.params.postid },
+          { $set: { comments: comments } },
+          { new: true }
+        );
+      }
+    })
+    .then(post => res.json(post))
+    .catch(err =>
+      // res.status(500).json({ errors: [{ msg: "Database error" }] })
+      res.json(err.message)
+    );
+});
 
 module.exports = router;
