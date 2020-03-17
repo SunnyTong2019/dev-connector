@@ -9,8 +9,8 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { LandingComponent } from "./landing/landing.component";
 import { RegisterComponent } from "./register/register.component";
 import { LoginComponent } from "./login/login.component";
-import { AlertComponent } from './alert/alert.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { AlertComponent } from "./alert/alert.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
 
 @NgModule({
   declarations: [

@@ -61,7 +61,9 @@ router.post(
       User.create(req.body)
         .then(newUser => {
           // use JWT to return a token
-          let token = jwt.sign({ userID: newUser.id }, jwtSecret);
+          let token = jwt.sign({ userID: newUser.id }, jwtSecret, {
+            expiresIn: "2h"
+          });
           res.json(token);
         })
         .catch(err =>
@@ -111,7 +113,9 @@ router.post(
       bcrypt.compare(password, hash).then(function(result) {
         if (result) {
           // if password matches, return a token
-          let token = jwt.sign({ userID: user.id }, jwtSecret);
+          let token = jwt.sign({ userID: user.id }, jwtSecret, {
+            expiresIn: "2h"
+          });
           res.json(token);
         } else {
           return res
