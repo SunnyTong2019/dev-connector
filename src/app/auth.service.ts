@@ -13,6 +13,10 @@ export class AuthService {
     return this._http.post("/api/auth/register", user);
   }
 
+  public login(user) {
+    return this._http.post("/api/auth/login", user);
+  }
+
   public isAuthenticated(): boolean {
     const token = localStorage.getItem("token");
 
