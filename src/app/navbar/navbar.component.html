@@ -10,6 +10,6 @@
     <li *ngIf="!isAuthed"><a routerLink="/login">Login</a></li>
 
     <!-- if user is authenticated -->
-    <li *ngIf="isAuthed"><a routerLink="/logout">Logout</a></li>
+    <li *ngIf="isAuthed"><a (click)="logout()">Logout</a></li>
   </ul>
 </nav>
