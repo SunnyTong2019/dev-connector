@@ -11,6 +11,7 @@ import { RegisterComponent } from "./register/register.component";
 import { LoginComponent } from "./login/login.component";
 import { AlertComponent } from "./alert/alert.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
+import { CreateProfileComponent } from './create-profile/create-profile.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
     RegisterComponent,
     LoginComponent,
     AlertComponent,
-    DashboardComponent
+    DashboardComponent,
+    CreateProfileComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
