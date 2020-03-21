@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ProfileService } from "../profile.service";
 import { Alert } from "../models/Alert";
+import { Profile } from "../models/Profile";
 import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
@@ -10,40 +11,55 @@ import { HttpErrorResponse } from "@angular/common/http";
 })
 export class CreateProfileComponent implements OnInit {
   statusArray: string[] = [
+    "* Select Professional Status",
     "Developer",
     "Junior Developer",
     "Senior Developer",
     "Manager",
     "Student or Learning",
+    "Instructor or Teacher",
     "Intern",
     "Other"
   ];
 
-  status: string = "0";
-  company: string = "";
-  website: string = "";
-  location: string = "";
-  skills: string = "";
-  githubusername: string = "";
-  bio: string = "";
-  twitter: string = "";
-  facebook: string = "";
-  youtube: string = "";
-  linkedin: string = "";
-  instagram: string = "";
+  model = new Profile(
+    this.statusArray[0],
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  );
 
   alerts: Alert[] = [];
 
   constructor(private profileService: ProfileService) {}
 
-  ngOnInit() {}
-
-  submitStatus(value) {
-    this.status = value;
+  ngOnInit() {
+    this.profileService.getCurrentProfile().subscribe(res => {
+      this.model.status = res["status"];
+      this.model.company = res["company"];
+      this.model.website = res["website"];
+      this.model.location = res["location"];
+      this.model.skills = res["skills"].join(", ");
+      this.model.githubusername = res["githubusername"];
+      this.model.bio = res["bio"];
+      this.model.twitter = res["social"] && res["social"]["twitter"];
+      this.model.facebook = res["social"] && res["social"]["facebook"];
+      this.model.youtube = res["social"] && res["social"]["youtube"];
+      this.model.linkedin = res["social"] && res["social"]["linkedin"];
+      this.model.instagram = res["social"] && res["social"]["instagram"];
+    });
   }
 
   submitProfile() {
-    if (this.status === "0") {
+    if (this.model.status === this.statusArray[0]) {
       this.alerts.push({
         alertType: "danger",
         alertMessage: "Please select professional status"
@@ -54,7 +70,7 @@ export class CreateProfileComponent implements OnInit {
           alert => alert.alertMessage !== "Please select professional status"
         );
       }, 5000);
-    } else if (this.skills === "") {
+    } else if (this.model.skills === "") {
       this.alerts.push({
         alertType: "danger",
         alertMessage: "Please enter skills"
@@ -66,57 +82,40 @@ export class CreateProfileComponent implements OnInit {
         );
       }, 5000);
     } else {
-      this.profileService
-        .createProfile({
-          status: this.status,
-          company: this.company,
-          website: this.website,
-          location: this.location,
-          skills: this.skills,
-          githubusername: this.githubusername,
-          bio: this.bio,
-          twitter: this.twitter,
-          facebook: this.facebook,
-          youtube: this.youtube,
-          linkedin: this.linkedin,
-          instagram: this.instagram
-        })
-        .subscribe(
-          res => {
-            console.log(res);
+      this.profileService.createProfile(this.model).subscribe(
+        res => {
+          this.alerts.push({
+            alertType: "success",
+            alertMessage: "Profile is updated"
+          });
 
-            this.alerts.push({
-              alertType: "success",
-              alertMessage: "Profile is updated"
-            });
+          setTimeout(() => {
+            this.alerts = this.alerts.filter(
+              alert => alert.alertMessage !== "Profile is updated"
+            );
+          }, 5000);
+        },
 
-            setTimeout(() => {
-              this.alerts = this.alerts.filter(
-                alert => alert.alertMessage !== "Profile is updated"
-              );
-            }, 5000);
-          },
+        (err: HttpErrorResponse) => {
+          // if fails, display an alert for each error
+          let errors = err.error.errors;
 
-          (err: HttpErrorResponse) => {
-            // if fails, display an alert for each error
-            let errors = err.error.errors;
-
-            if (errors !== null && errors.length > 0) {
-              errors.forEach(error => {
-                this.alerts.push({
-                  alertType: "danger",
-                  alertMessage: error.msg
-                });
-
-                setTimeout(() => {
-                  this.alerts = this.alerts.filter(
-                    alert => alert.alertMessage !== error.msg
-                  );
-                }, 5000);
+          if (errors !== null && errors.length > 0) {
+            errors.forEach(error => {
+              this.alerts.push({
+                alertType: "danger",
+                alertMessage: error.msg
               });
-            }
+
+              setTimeout(() => {
+                this.alerts = this.alerts.filter(
+                  alert => alert.alertMessage !== error.msg
+                );
+              }, 5000);
+            });
           }
-        );
+        }
+      );
     }
   }
 }

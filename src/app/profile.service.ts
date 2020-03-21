@@ -14,4 +14,8 @@ export class ProfileService {
   public createProfile(profile) {
     return this._http.post("/api/profile", profile, { headers: this.headers });
   }
+
+  public getCurrentProfile() {
+    return this._http.get("api/profile/me", { headers: this.headers });
+  }
 }
