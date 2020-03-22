@@ -13,6 +13,7 @@ import { AlertComponent } from "./alert/alert.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { CreateProfileComponent } from './create-profile/create-profile.component';
 import { AddExperienceComponent } from './add-experience/add-experience.component';
+import { AddEducationComponent } from './add-education/add-education.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AddExperienceComponent } from './add-experience/add-experience.componen
     AlertComponent,
     DashboardComponent,
     CreateProfileComponent,
-    AddExperienceComponent
+    AddExperienceComponent,
+    AddEducationComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],

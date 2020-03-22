@@ -1,16 +1,16 @@
 import { Component, OnInit } from "@angular/core";
-import { Experience } from "../models/Experience";
-import { HttpErrorResponse } from "@angular/common/http";
-import { ProfileService } from "../profile.service";
+import { Education } from "../models/Education";
 import { Alert } from "../models/Alert";
+import { ProfileService } from "../profile.service";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
-  selector: "app-add-experience",
-  templateUrl: "./add-experience.component.html",
-  styleUrls: ["./add-experience.component.css"]
+  selector: "app-add-education",
+  templateUrl: "./add-education.component.html",
+  styleUrls: ["./add-education.component.css"]
 })
-export class AddExperienceComponent implements OnInit {
-  experience = new Experience("", "", null, "", null, false, "");
+export class AddEducationComponent implements OnInit {
+  education = new Education("", "", "", null, null, false, "");
 
   isCurrent: boolean = false;
   displayToDate: boolean = true;
@@ -30,17 +30,17 @@ export class AddExperienceComponent implements OnInit {
     }
   }
 
-  submitExperience() {
-    this.profileService.addExperience(this.experience).subscribe(
+  submitEducation() {
+    this.profileService.addEducation(this.education).subscribe(
       res => {
         this.alerts.push({
           alertType: "success",
-          alertMessage: "Experience is added"
+          alertMessage: "Education is added"
         });
 
         setTimeout(() => {
           this.alerts = this.alerts.filter(
-            alert => alert.alertMessage !== "Experience is added"
+            alert => alert.alertMessage !== "Education is added"
           );
         }, 5000);
       },

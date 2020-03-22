@@ -24,4 +24,10 @@ export class ProfileService {
       headers: this.headers
     });
   }
+
+  public addEducation(edu) {
+    return this._http.put("/api/profile/education", edu, {
+      headers: this.headers
+    });
+  }
 }

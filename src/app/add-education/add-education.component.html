@@ -1,0 +1,89 @@
+<section class="container">
+  <!-- Alert Messages-->
+  <ul *ngIf="alerts.length > 0">
+    <li *ngFor="let alert of alerts">
+      <app-alert
+        [alertType]="alert.alertType"
+        [alertMessage]="alert.alertMessage"
+      ></app-alert>
+    </li>
+  </ul>
+
+  <h1 class="large text-primary">
+    Add Your Education
+  </h1>
+  <p class="lead">
+    <i class="fas fa-graduation-cap"></i> Add any school, bootcamp, etc that you
+    have attended
+  </p>
+  <small>* = required field</small>
+  <form class="form">
+    <div class="form-group">
+      <input
+        type="text"
+        placeholder="* School or Bootcamp"
+        name="school"
+        required
+        [(ngModel)]="education.school"
+      />
+    </div>
+    <div class="form-group">
+      <input
+        type="text"
+        placeholder="* Degree or Certificate"
+        name="degree"
+        required
+        [(ngModel)]="education.degree"
+      />
+    </div>
+    <div class="form-group">
+      <input
+        type="text"
+        placeholder="* Field Of Study"
+        name="fieldofstudy"
+        required
+        [(ngModel)]="education.fieldofstudy"
+      />
+    </div>
+    <div class="form-group">
+      <h4>* From Date</h4>
+      <input type="date" name="from" required [(ngModel)]="education.from" />
+    </div>
+    <div class="form-group">
+      <p>
+        <input
+          type="checkbox"
+          name="current"
+          value=""
+          [(ngModel)]="education.current"
+          (click)="toggleCurrent()"
+        />
+        Current School or Bootcamp
+      </p>
+    </div>
+    <div class="form-group">
+      <h4>To Date</h4>
+      <input
+        type="date"
+        name="to"
+        [(ngModel)]="education.to"
+        [disabled]="!displayToDate"
+      />
+    </div>
+    <div class="form-group">
+      <textarea
+        name="description"
+        cols="30"
+        rows="5"
+        placeholder="Program Description"
+        [(ngModel)]="education.description"
+      ></textarea>
+    </div>
+    <input
+      type="submit"
+      class="btn btn-primary my-1"
+      (click)="submitEducation()"
+    />
+    <a class="btn btn-light my-1" routerLink="/dashboard">Go Back</a>
+  </form>
+</section>

@@ -7,6 +7,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { AuthGuardService } from "./auth-guard.service";
 import { CreateProfileComponent } from "./create-profile/create-profile.component";
 import { AddExperienceComponent } from "./add-experience/add-experience.component";
+import { AddEducationComponent } from "./add-education/add-education.component";
 
 const routes: Routes = [
   { path: "", component: LandingComponent },
@@ -25,6 +26,11 @@ const routes: Routes = [
   {
     path: "add-experience",
     component: AddExperienceComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "add-education",
+    component: AddEducationComponent,
     canActivate: [AuthGuardService]
   }
 ];
