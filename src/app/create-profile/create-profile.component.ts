@@ -22,7 +22,7 @@ export class CreateProfileComponent implements OnInit {
     "Other"
   ];
 
-  model = new Profile(
+  profile = new Profile(
     this.statusArray[0],
     "",
     "",
@@ -44,18 +44,18 @@ export class CreateProfileComponent implements OnInit {
 
   ngOnInit() {
     this.profileService.getCurrentProfile().subscribe(res => {
-      this.model.status = res["status"];
-      this.model.company = res["company"];
-      this.model.website = res["website"];
-      this.model.location = res["location"];
-      this.model.skills = res["skills"].join(", ");
-      this.model.githubusername = res["githubusername"];
-      this.model.bio = res["bio"];
-      this.model.twitter = res["social"] && res["social"]["twitter"];
-      this.model.facebook = res["social"] && res["social"]["facebook"];
-      this.model.youtube = res["social"] && res["social"]["youtube"];
-      this.model.linkedin = res["social"] && res["social"]["linkedin"];
-      this.model.instagram = res["social"] && res["social"]["instagram"];
+      this.profile.status = res["status"];
+      this.profile.company = res["company"];
+      this.profile.website = res["website"];
+      this.profile.location = res["location"];
+      this.profile.skills = res["skills"].join(", ");
+      this.profile.githubusername = res["githubusername"];
+      this.profile.bio = res["bio"];
+      this.profile.twitter = res["social"] && res["social"]["twitter"];
+      this.profile.facebook = res["social"] && res["social"]["facebook"];
+      this.profile.youtube = res["social"] && res["social"]["youtube"];
+      this.profile.linkedin = res["social"] && res["social"]["linkedin"];
+      this.profile.instagram = res["social"] && res["social"]["instagram"];
     });
   }
 
@@ -64,7 +64,7 @@ export class CreateProfileComponent implements OnInit {
   }
 
   submitProfile() {
-    if (this.model.status === this.statusArray[0]) {
+    if (this.profile.status === this.statusArray[0]) {
       this.alerts.push({
         alertType: "danger",
         alertMessage: "Please select professional status"
@@ -75,7 +75,7 @@ export class CreateProfileComponent implements OnInit {
           alert => alert.alertMessage !== "Please select professional status"
         );
       }, 5000);
-    } else if (this.model.skills === "") {
+    } else if (this.profile.skills === "") {
       this.alerts.push({
         alertType: "danger",
         alertMessage: "Please enter skills"
@@ -87,7 +87,7 @@ export class CreateProfileComponent implements OnInit {
         );
       }, 5000);
     } else {
-      this.profileService.createProfile(this.model).subscribe(
+      this.profileService.createProfile(this.profile).subscribe(
         res => {
           this.alerts.push({
             alertType: "success",

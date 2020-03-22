@@ -18,4 +18,10 @@ export class ProfileService {
   public getCurrentProfile() {
     return this._http.get("api/profile/me", { headers: this.headers });
   }
+
+  public addExperience(exp) {
+    return this._http.put("/api/profile/experience", exp, {
+      headers: this.headers
+    });
+  }
 }

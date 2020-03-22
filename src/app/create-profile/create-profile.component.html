@@ -18,7 +18,7 @@
   <small>* = required field</small>
   <form class="form">
     <div class="form-group">
-      <select name="status" required [(ngModel)]="model.status">
+      <select name="status" required [(ngModel)]="profile.status">
         <option *ngFor="let status of statusArray" [value]="status">{{
           status
         }}</option>
@@ -32,7 +32,7 @@
         type="text"
         placeholder="Company"
         name="company"
-        [(ngModel)]="model.company"
+        [(ngModel)]="profile.company"
       />
       <small class="form-text"
         >Could be your own company or one you work for</small
@@ -43,7 +43,7 @@
         type="text"
         placeholder="Website"
         name="website"
-        [(ngModel)]="model.website"
+        [(ngModel)]="profile.website"
       />
       <small class="form-text">Could be your own or a company website</small>
     </div>
@@ -52,7 +52,7 @@
         type="text"
         placeholder="Location"
         name="location"
-        [(ngModel)]="model.location"
+        [(ngModel)]="profile.location"
       />
       <small class="form-text">City & state suggested (eg. Boston, MA)</small>
     </div>
@@ -62,7 +62,7 @@
         required
         placeholder="* Skills"
         name="skills"
-        [(ngModel)]="model.skills"
+        [(ngModel)]="profile.skills"
       />
       <small class="form-text"
         >Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)</small
@@ -73,7 +73,7 @@
         type="text"
         placeholder="Github Username"
         name="githubusername"
-        [(ngModel)]="model.githubusername"
+        [(ngModel)]="profile.githubusername"
       />
       <small class="form-text"
         >If you want your latest repos and a Github link, include your
@@ -84,7 +84,7 @@
       <textarea
         placeholder="A short bio of yourself"
         name="bio"
-        [(ngModel)]="model.bio"
+        [(ngModel)]="profile.bio"
       ></textarea>
       <small class="form-text">Tell us a little about yourself</small>
     </div>
@@ -103,7 +103,7 @@
           type="text"
           placeholder="Twitter URL"
           name="twitter"
-          [(ngModel)]="model.twitter"
+          [(ngModel)]="profile.twitter"
         />
       </div>
 
@@ -113,7 +113,7 @@
           type="text"
           placeholder="Facebook URL"
           name="facebook"
-          [(ngModel)]="model.facebook"
+          [(ngModel)]="profile.facebook"
         />
       </div>
 
@@ -123,7 +123,7 @@
           type="text"
           placeholder="YouTube URL"
           name="youtube"
-          [(ngModel)]="model.youtube"
+          [(ngModel)]="profile.youtube"
         />
       </div>
 
@@ -133,7 +133,7 @@
           type="text"
           placeholder="Linkedin URL"
           name="linkedin"
-          [(ngModel)]="model.linkedin"
+          [(ngModel)]="profile.linkedin"
         />
       </div>
 
@@ -143,7 +143,7 @@
           type="text"
           placeholder="Instagram URL"
           name="instagram"
-          [(ngModel)]="model.instagram"
+          [(ngModel)]="profile.instagram"
         />
       </div>
     </div>

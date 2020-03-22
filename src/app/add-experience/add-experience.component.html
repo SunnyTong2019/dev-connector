@@ -1,0 +1,88 @@
+<section class="container">
+  <!-- Alert Messages-->
+  <ul *ngIf="alerts.length > 0">
+    <li *ngFor="let alert of alerts">
+      <app-alert
+        [alertType]="alert.alertType"
+        [alertMessage]="alert.alertMessage"
+      ></app-alert>
+    </li>
+  </ul>
+
+  <h1 class="large text-primary">
+    Add An Experience
+  </h1>
+  <p class="lead">
+    <i class="fas fa-code-branch"></i> Add any developer/programming positions
+    that you have had in the past
+  </p>
+  <small>* = required field</small>
+  <form class="form">
+    <div class="form-group">
+      <input
+        type="text"
+        placeholder="* Job Title"
+        name="title"
+        required
+        [(ngModel)]="experience.title"
+      />
+    </div>
+    <div class="form-group">
+      <input
+        type="text"
+        placeholder="* Company"
+        name="company"
+        required
+        [(ngModel)]="experience.company"
+      />
+    </div>
+    <div class="form-group">
+      <input
+        type="text"
+        placeholder="Location"
+        name="location"
+        [(ngModel)]="experience.location"
+      />
+    </div>
+    <div class="form-group">
+      <h4>* From Date</h4>
+      <input type="date" name="from" required [(ngModel)]="experience.from" />
+    </div>
+    <div class="form-group">
+      <p>
+        <input
+          type="checkbox"
+          name="current"
+          value=""
+          [(ngModel)]="experience.current"
+          (click)="toggleCurrent()"
+        />
+        Current Job
+      </p>
+    </div>
+    <div class="form-group">
+      <h4>To Date</h4>
+      <input
+        type="date"
+        name="to"
+        [(ngModel)]="experience.to"
+        [disabled]="!displayToDate"
+      />
+    </div>
+    <div class="form-group">
+      <textarea
+        name="description"
+        cols="30"
+        rows="5"
+        placeholder="Job Description"
+        [(ngModel)]="experience.description"
+      ></textarea>
+    </div>
+    <input
+      type="submit"
+      class="btn btn-primary my-1"
+      (click)="submitExperience()"
+    />
+    <a class="btn btn-light my-1" routerLink="/dashboard">Go Back</a>
+  </form>
+</section>
