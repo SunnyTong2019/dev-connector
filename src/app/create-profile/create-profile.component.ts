@@ -37,6 +37,7 @@ export class CreateProfileComponent implements OnInit {
     ""
   );
 
+  displaySocial: boolean = false;
   alerts: Alert[] = [];
 
   constructor(private profileService: ProfileService) {}
@@ -56,6 +57,10 @@ export class CreateProfileComponent implements OnInit {
       this.model.linkedin = res["social"] && res["social"]["linkedin"];
       this.model.instagram = res["social"] && res["social"]["instagram"];
     });
+  }
+
+  socialToggle() {
+    this.displaySocial = !this.displaySocial;
   }
 
   submitProfile() {
