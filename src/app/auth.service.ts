@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter, Output } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { JwtHelperService } from "@auth0/angular-jwt";
 
 const jwtHelper = new JwtHelperService();
@@ -31,5 +31,12 @@ export class AuthService {
       this.isAuthed.emit(false);
       return false;
     }
+  }
+
+  public getUserByToken() {
+    let headers = new HttpHeaders({
+      "x-access-token": localStorage.getItem("token")
+    });
+    return this._http.get("/api/user", { headers: headers });
   }
 }

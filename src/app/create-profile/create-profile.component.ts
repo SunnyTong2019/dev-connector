@@ -43,20 +43,23 @@ export class CreateProfileComponent implements OnInit {
   constructor(private profileService: ProfileService) {}
 
   ngOnInit() {
-    this.profileService.getCurrentProfile().subscribe(res => {
-      this.profile.status = res["status"];
-      this.profile.company = res["company"];
-      this.profile.website = res["website"];
-      this.profile.location = res["location"];
-      this.profile.skills = res["skills"].join(", ");
-      this.profile.githubusername = res["githubusername"];
-      this.profile.bio = res["bio"];
-      this.profile.twitter = res["social"] && res["social"]["twitter"];
-      this.profile.facebook = res["social"] && res["social"]["facebook"];
-      this.profile.youtube = res["social"] && res["social"]["youtube"];
-      this.profile.linkedin = res["social"] && res["social"]["linkedin"];
-      this.profile.instagram = res["social"] && res["social"]["instagram"];
-    });
+    this.profileService.getCurrentProfile().subscribe(
+      res => {
+        this.profile.status = res["status"];
+        this.profile.company = res["company"];
+        this.profile.website = res["website"];
+        this.profile.location = res["location"];
+        this.profile.skills = res["skills"].join(", ");
+        this.profile.githubusername = res["githubusername"];
+        this.profile.bio = res["bio"];
+        this.profile.twitter = res["social"] && res["social"]["twitter"];
+        this.profile.facebook = res["social"] && res["social"]["facebook"];
+        this.profile.youtube = res["social"] && res["social"]["youtube"];
+        this.profile.linkedin = res["social"] && res["social"]["linkedin"];
+        this.profile.instagram = res["social"] && res["social"]["instagram"];
+      },
+      (err: HttpErrorResponse) => console.log(err)
+    );
   }
 
   socialToggle() {

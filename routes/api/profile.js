@@ -12,6 +12,7 @@ const request = require("request");
 // @access   Private
 router.get("/me", auth, function(req, res) {
   Profile.findOne({ user: req.userID })
+    .populate("user")
     .then(profile => {
       if (!profile)
         return res.status(400).json({ errors: [{ msg: "Profile not found" }] });

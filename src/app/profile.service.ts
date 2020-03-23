@@ -5,29 +5,40 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
   providedIn: "root"
 })
 export class ProfileService {
-  headers = new HttpHeaders({
-    "x-access-token": localStorage.getItem("token")
-  });
-
   constructor(private _http: HttpClient) {}
 
   public createProfile(profile) {
-    return this._http.post("/api/profile", profile, { headers: this.headers });
+    // should have a headers variable inside each method,
+    // if only have one headers variable outside under class, if user 1 log in then log out, then user 2 log in, headers will still have
+    // user 1's token.
+    let headers = new HttpHeaders({
+      "x-access-token": localStorage.getItem("token")
+    });
+    return this._http.post("/api/profile", profile, { headers: headers });
   }
 
   public getCurrentProfile() {
-    return this._http.get("api/profile/me", { headers: this.headers });
+    let headers = new HttpHeaders({
+      "x-access-token": localStorage.getItem("token")
+    });
+    return this._http.get("api/profile/me", { headers: headers });
   }
 
   public addExperience(exp) {
+    let headers = new HttpHeaders({
+      "x-access-token": localStorage.getItem("token")
+    });
     return this._http.put("/api/profile/experience", exp, {
-      headers: this.headers
+      headers: headers
     });
   }
 
   public addEducation(edu) {
+    let headers = new HttpHeaders({
+      "x-access-token": localStorage.getItem("token")
+    });
     return this._http.put("/api/profile/education", edu, {
-      headers: this.headers
+      headers: headers
     });
   }
 }
