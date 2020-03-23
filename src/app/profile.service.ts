@@ -21,6 +21,7 @@ export class ProfileService {
     let headers = new HttpHeaders({
       "x-access-token": localStorage.getItem("token")
     });
+    console.log(headers);
     return this._http.get("api/profile/me", { headers: headers });
   }
 
@@ -38,6 +39,25 @@ export class ProfileService {
       "x-access-token": localStorage.getItem("token")
     });
     return this._http.put("/api/profile/education", edu, {
+      headers: headers
+    });
+  }
+
+  public deleteExperience(expID) {
+    let headers = new HttpHeaders({
+      "x-access-token": localStorage.getItem("token")
+    });
+    console.log(headers);
+    return this._http.put(`/api/profile/experience/${expID}`, {
+      headers: headers
+    });
+  }
+
+  public deleteEducation(eduID) {
+    let headers = new HttpHeaders({
+      "x-access-token": localStorage.getItem("token")
+    });
+    return this._http.put("/api/profile/education/" + eduID, {
       headers: headers
     });
   }

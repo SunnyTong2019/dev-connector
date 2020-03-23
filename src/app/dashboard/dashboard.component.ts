@@ -28,7 +28,6 @@ export class DashboardComponent implements OnInit {
 
     this.profileService.getCurrentProfile().subscribe(
       res => {
-        console.log(res);
         this.hasProfile = true;
         this.experience = res["experience"];
         this.education = res["education"];
@@ -41,5 +40,19 @@ export class DashboardComponent implements OnInit {
         }
       }
     );
+  }
+
+  deleteExperience(expID) {
+    console.log(expID);
+    this.profileService
+      .deleteExperience(expID)
+      .subscribe(res => console.log(res));
+  }
+
+  deleteEducation(eduID) {
+    console.log(eduID);
+    this.profileService
+      .deleteEducation(eduID)
+      .subscribe(res => console.log(res));
   }
 }
