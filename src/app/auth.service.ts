@@ -34,9 +34,7 @@ export class AuthService {
   }
 
   public getUserByToken() {
-    let headers = new HttpHeaders({
-      "x-access-token": localStorage.getItem("token")
-    });
-    return this._http.get("/api/user", { headers: headers });
+    // token will be attached to request headers by token.interceptor.ts
+    return this._http.get("/api/user");
   }
 }

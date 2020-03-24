@@ -162,10 +162,10 @@ router.put(
   }
 );
 
-// @route    PUT api/profile/experience/:exp_id
+// @route    DELETE api/profile/experience/:exp_id
 // @desc     Delete experience from profile
 // @access   Private
-router.put("/experience/:exp_id", auth, function(req, res) {
+router.delete("/experience/:exp_id", auth, function(req, res) {
   Profile.findOne({ user: req.userID })
     .then(profile => {
       let experience = profile.experience;
@@ -232,10 +232,10 @@ router.put(
   }
 );
 
-// @route    PUT api/profile/education/:edu_id
+// @route    DELETE api/profile/education/:edu_id
 // @desc     Delete education from profile
 // @access   Private
-router.put("/education/:edu_id", auth, function(req, res) {
+router.delete("/education/:edu_id", auth, function(req, res) {
   Profile.findOne({ user: req.userID })
     .then(profile => {
       let education = profile.education;

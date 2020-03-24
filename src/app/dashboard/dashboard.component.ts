@@ -22,9 +22,14 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.authService
-      .getUserByToken()
-      .subscribe(res => (this.userName = res["name"]));
+    this.authService.getUserByToken().subscribe(
+      res => {
+        this.userName = res["name"];
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
 
     this.profileService.getCurrentProfile().subscribe(
       res => {
@@ -37,22 +42,33 @@ export class DashboardComponent implements OnInit {
 
         if (errors[0] && errors[0].msg === "Profile not found") {
           this.hasProfile = false;
+        } else {
+          console.log(err);
         }
       }
     );
   }
 
   deleteExperience(expID) {
-    console.log(expID);
-    this.profileService
-      .deleteExperience(expID)
-      .subscribe(res => console.log(res));
+    this.profileService.deleteExperience(expID).subscribe(
+      res => {
+        //after the experience is deleted from database, now delete it from UI
+        this.experience = this.experience.filter(exp => exp["_id"] !== expID);
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
   }
 
   deleteEducation(eduID) {
-    console.log(eduID);
-    this.profileService
-      .deleteEducation(eduID)
-      .subscribe(res => console.log(res));
+    this.profileService.deleteEducation(eduID).subscribe(
+      res => {
+        this.education = this.education.filter(edu => edu["_id"] !== eduID);
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
   }
 }
