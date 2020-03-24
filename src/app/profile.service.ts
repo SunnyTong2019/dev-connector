@@ -31,4 +31,8 @@ export class ProfileService {
   public deleteEducation(eduID) {
     return this._http.delete("/api/profile/education/" + eduID);
   }
+
+  public getAllProfiles() {
+    return this._http.get("/api/profile");
+  }
 }

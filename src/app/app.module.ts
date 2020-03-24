@@ -7,6 +7,8 @@ import { AppRoutingModule } from "./app-routing.module";
 
 import { TokenInterceptor } from "./token.interceptor";
 
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+
 import { AppComponent } from "./app.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { LandingComponent } from "./landing/landing.component";
@@ -17,6 +19,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { CreateProfileComponent } from "./create-profile/create-profile.component";
 import { AddExperienceComponent } from "./add-experience/add-experience.component";
 import { AddEducationComponent } from "./add-education/add-education.component";
+import { DevelopersComponent } from "./developers/developers.component";
 
 @NgModule({
   declarations: [
@@ -29,9 +32,16 @@ import { AddEducationComponent } from "./add-education/add-education.component";
     DashboardComponent,
     CreateProfileComponent,
     AddExperienceComponent,
-    AddEducationComponent
+    AddEducationComponent,
+    DevelopersComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    FontAwesomeModule
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],

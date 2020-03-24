@@ -1,0 +1,27 @@
+<section class="container">
+  <h1 class="large text-primary">Developers</h1>
+  <p class="lead">
+    Browse and connect with developers
+  </p>
+  <div class="profiles">
+    <div class="profile bg-light" *ngFor="let profile of profiles">
+      <img class="round-img" [src]="profile.user.avatar" alt="" />
+      <div>
+        <h2>{{ profile.user.name }}</h2>
+        <p>
+          {{ profile.status }} {{ profile.company && "at " + profile.company }}
+        </p>
+        <p>{{ profile.location }}</p>
+        <a routerLink="/developer/profile._id" class="btn btn-primary"
+          >View Profile</a
+        >
+      </div>
+
+      <ul>
+        <li class="text-primary" *ngFor="let skill of profile.skills">
+          <fa-icon [icon]="faCheck"></fa-icon> {{ skill }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

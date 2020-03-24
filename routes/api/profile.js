@@ -77,6 +77,7 @@ router.post(
 // @access   Public
 router.get("/", function(req, res) {
   Profile.find()
+    .populate("user", "name avatar")
     .then(profiles => {
       if (profiles.length === 0)
         return res.status(400).json({ errors: [{ msg: "No profiles" }] });
