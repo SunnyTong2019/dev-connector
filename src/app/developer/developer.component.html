@@ -17,7 +17,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <fa-icon [icon]="faGlobe"></fa-icon>
+          <fa-icon [icon]="faGlobe" size="lg"></fa-icon>
         </a>
         <a
           *ngIf="profile?.social && profile.social.twitter"
@@ -25,7 +25,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <fa-icon [icon]="faTwitter"></fa-icon>
+          <fa-icon [icon]="faTwitter" size="lg"></fa-icon>
         </a>
         <a
           *ngIf="profile?.social && profile.social.facebook"
@@ -33,7 +33,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <fa-icon [icon]="faFacebook"></fa-icon>
+          <fa-icon [icon]="faFacebook" size="lg"></fa-icon>
         </a>
         <a
           *ngIf="profile?.social && profile.social.linkedin"
@@ -41,7 +41,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <fa-icon [icon]="faLinkedin"></fa-icon>
+          <fa-icon [icon]="faLinkedin" size="lg"></fa-icon>
         </a>
         <a
           *ngIf="profile?.social && profile.social.youtube"
@@ -49,7 +49,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <fa-icon [icon]="faYoutube"></fa-icon>
+          <fa-icon [icon]="faYoutube" size="lg"></fa-icon>
         </a>
         <a
           *ngIf="profile?.social && profile.social.instagram"
@@ -57,7 +57,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          <fa-icon [icon]="faInstagram"></fa-icon>
+          <fa-icon [icon]="faInstagram" size="lg"></fa-icon>
         </a>
       </div>
     </div>
@@ -79,7 +79,7 @@
         <h2 class="text-primary">Skill Set</h2>
         <div class="skills">
           <div *ngFor="let skill of profile.skills" class="p-1">
-            <i class="fa fa-check"></i> {{ skill }}
+            <fa-icon [icon]="faCheck" size="lg"></fa-icon> {{ skill }}
           </div>
         </div>
       </div>
@@ -137,7 +137,7 @@
     <!-- Github -->
     <div class="profile-github" *ngIf="githubRepos">
       <h2 class="text-primary my-1">
-        <i class="fab fa-github"></i> Github Repos
+        <fa-icon [icon]="faGithub" size="lg"></fa-icon> Github Repos
       </h2>
       <div class="repo bg-white p-1 my-1" *ngFor="let repo of githubRepos">
         <div>

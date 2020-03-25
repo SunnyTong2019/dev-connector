@@ -3,13 +3,14 @@ import { ProfileService } from "../profile.service";
 import { Profile } from "../models/Profile";
 import { HttpErrorResponse } from "@angular/common/http";
 import { ActivatedRoute } from "@angular/router";
-import { faGlobe } from "@fortawesome/free-solid-svg-icons";
+import { faGlobe, faCheck } from "@fortawesome/free-solid-svg-icons";
 import {
   faTwitter,
   faFacebook,
   faLinkedin,
   faYoutube,
-  faInstagram
+  faInstagram,
+  faGithub
 } from "@fortawesome/free-brands-svg-icons";
 
 @Component({
@@ -21,11 +22,13 @@ export class DeveloperComponent implements OnInit {
   profile: Profile;
   githubRepos: [any];
   faGlobe = faGlobe;
+  faCheck = faCheck;
   faTwitter = faTwitter;
   faFacebook = faFacebook;
   faLinkedin = faLinkedin;
   faYoutube = faYoutube;
   faInstagram = faInstagram;
+  faGithub = faGithub;
 
   constructor(
     private route: ActivatedRoute,
