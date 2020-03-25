@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ProfileService } from "../profile.service";
 import { Alert } from "../models/Alert";
 import { Profile } from "../models/Profile";
+import { Social } from "../models/Social";
 import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
@@ -22,19 +23,18 @@ export class CreateProfileComponent implements OnInit {
     "Other"
   ];
 
+  social = new Social("", "", "", "", "");
+
   profile = new Profile(
     this.statusArray[0],
     "",
+    null,
     "",
     "",
     "",
     "",
     "",
-    "",
-    "",
-    "",
-    "",
-    ""
+    this.social
   );
 
   displaySocial: boolean = false;
@@ -52,11 +52,7 @@ export class CreateProfileComponent implements OnInit {
         this.profile.skills = res["skills"].join(", ");
         this.profile.githubusername = res["githubusername"];
         this.profile.bio = res["bio"];
-        this.profile.twitter = res["social"] && res["social"]["twitter"];
-        this.profile.facebook = res["social"] && res["social"]["facebook"];
-        this.profile.youtube = res["social"] && res["social"]["youtube"];
-        this.profile.linkedin = res["social"] && res["social"]["linkedin"];
-        this.profile.instagram = res["social"] && res["social"]["instagram"];
+        this.profile.social = res["social"];
       },
       (err: HttpErrorResponse) => console.log(err)
     );

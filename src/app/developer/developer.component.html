@@ -1,0 +1,170 @@
+<section class="container">
+  <a routerLink="/developers" class="btn btn-light">Back To Developers</a>
+
+  <div class="profile-grid my-1">
+    <!-- Top -->
+    <div class="profile-top bg-primary p-2">
+      <img class="round-img my-1" [src]="profile?.user.avatar" alt="" />
+      <h1 class="large">{{ profile?.user.name }}</h1>
+      <p class="lead">
+        {{ profile?.status }} {{ profile?.company && "at " + profile.company }}
+      </p>
+      <p>{{ profile?.location }}</p>
+      <div class="icons my-1">
+        <a
+          *ngIf="profile?.website"
+          [href]="profile.website"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <fa-icon [icon]="faGlobe"></fa-icon>
+        </a>
+        <a
+          *ngIf="profile?.social && profile.social.twitter"
+          [href]="profile.social.twitter"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <fa-icon [icon]="faTwitter"></fa-icon>
+        </a>
+        <a
+          *ngIf="profile?.social && profile.social.facebook"
+          [href]="profile.social.facebook"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <fa-icon [icon]="faFacebook"></fa-icon>
+        </a>
+        <a
+          *ngIf="profile?.social && profile.social.linkedin"
+          [href]="profile.social.linkedin"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <fa-icon [icon]="faLinkedin"></fa-icon>
+        </a>
+        <a
+          *ngIf="profile?.social && profile.social.youtube"
+          [href]="profile.social.youtube"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <fa-icon [icon]="faYoutube"></fa-icon>
+        </a>
+        <a
+          *ngIf="profile?.social && profile.social.instagram"
+          [href]="profile.social.instagram"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <fa-icon [icon]="faInstagram"></fa-icon>
+        </a>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div
+      class="profile-about bg-light p-2"
+      *ngIf="profile?.bio || profile?.skills"
+    >
+      <div *ngIf="profile.bio">
+        <h2 class="text-primary">{{ profile.user.name }}'s Bio</h2>
+        <p>
+          {{ profile.bio }}
+        </p>
+        <div class="line"></div>
+      </div>
+
+      <div *ngIf="profile.skills">
+        <h2 class="text-primary">Skill Set</h2>
+        <div class="skills">
+          <div *ngFor="let skill of profile.skills" class="p-1">
+            <i class="fa fa-check"></i> {{ skill }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Experience -->
+    <div
+      class="profile-exp bg-white p-2"
+      *ngIf="profile?.experience.length > 0"
+    >
+      <h2 class="text-primary">Experience</h2>
+
+      <div *ngFor="let exp of profile.experience">
+        <h3 class="text-dark">{{ exp.company }}</h3>
+        <p>
+          {{ exp.from.split("T")[0] | date: "MM/dd/yyyy"
+          }}{{
+            exp.current
+              ? " - Present"
+              : exp.to
+              ? " - " + (exp.to.split("T")[0] | date: "MM/dd/yyyy")
+              : null
+          }}
+        </p>
+        <p><strong>Position: </strong>{{ exp.title }}</p>
+        <p *ngIf="exp.description">
+          <strong>Description: </strong>{{ exp.description }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="profile-edu bg-white p-2" *ngIf="profile?.education.length > 0">
+      <h2 class="text-primary">Education</h2>
+      <div *ngFor="let edu of profile.education">
+        <h3>{{ edu.school }}</h3>
+        <p>
+          {{ edu.from.split("T")[0] | date: "MM/dd/yyyy"
+          }}{{
+            edu.current
+              ? " - Present"
+              : edu.to
+              ? " - " + (edu.to.split("T")[0] | date: "MM/dd/yyyy")
+              : null
+          }}
+        </p>
+        <p><strong>Degree: </strong>{{ edu.degree }}</p>
+        <p><strong>Field Of Study: </strong>{{ edu.fieldofstudy }}</p>
+        <p *ngIf="edu.description">
+          <strong>Description: </strong>{{ edu.description }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Github -->
+    <div class="profile-github" *ngIf="githubRepos">
+      <h2 class="text-primary my-1">
+        <i class="fab fa-github"></i> Github Repos
+      </h2>
+      <div class="repo bg-white p-1 my-1" *ngFor="let repo of githubRepos">
+        <div>
+          <h4>
+            <a
+              [href]="repo.html_url"
+              target="_blank"
+              rel="noopener noreferrer"
+              >{{ repo.name }}</a
+            >
+          </h4>
+          <p>
+            {{ repo.description }}
+          </p>
+        </div>
+        <div>
+          <ul>
+            <li class="badge badge-primary">
+              Stars: {{ repo.stargazers_count }}
+            </li>
+            <li class="badge badge-dark">
+              Watchers: {{ repo.watchers_count }}
+            </li>
+            <li class="badge badge-light">Forks: {{ repo.forks_count }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

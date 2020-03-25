@@ -50,14 +50,7 @@ router.post(
 
     req.body.skills = req.body.skills.split(",").map(skill => skill.trim());
 
-    let social = {};
-    if (req.body.youtube) social.youtube = req.body.youtube;
-    if (req.body.twitter) social.twitter = req.body.twitter;
-    if (req.body.facebook) social.facebook = req.body.facebook;
-    if (req.body.linkedin) social.linkedin = req.body.linkedin;
-    if (req.body.instagram) social.instagram = req.body.instagram;
-
-    req.body.social = social;
+    req.body.user = req.userID;
 
     Profile.findOneAndUpdate({ user: req.userID }, req.body, {
       upsert: true,
@@ -93,6 +86,7 @@ router.get("/", function(req, res) {
 // @access   Public
 router.get("/user/:user_id", function(req, res) {
   Profile.findOne({ user: req.params.user_id })
+    .populate("user", "name avatar")
     .then(profile => {
       if (!profile)
         return res.status(400).json({ errors: [{ msg: "Profile not found" }] });

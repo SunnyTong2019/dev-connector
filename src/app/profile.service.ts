@@ -35,4 +35,12 @@ export class ProfileService {
   public getAllProfiles() {
     return this._http.get("/api/profile");
   }
+
+  public getProfileByUserid(userID) {
+    return this._http.get("api/profile/user/" + userID);
+  }
+
+  public getGithubRepos(username) {
+    return this._http.get("api/profile/github/" + username);
+  }
 }

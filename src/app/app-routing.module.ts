@@ -9,12 +9,14 @@ import { CreateProfileComponent } from "./create-profile/create-profile.componen
 import { AddExperienceComponent } from "./add-experience/add-experience.component";
 import { AddEducationComponent } from "./add-education/add-education.component";
 import { DevelopersComponent } from "./developers/developers.component";
+import { DeveloperComponent } from "./developer/developer.component";
 
 const routes: Routes = [
   { path: "", component: LandingComponent },
   { path: "register", component: RegisterComponent },
   { path: "login", component: LoginComponent },
   { path: "developers", component: DevelopersComponent },
+  { path: "developer/:userid", component: DeveloperComponent },
   {
     path: "dashboard",
     component: DashboardComponent,

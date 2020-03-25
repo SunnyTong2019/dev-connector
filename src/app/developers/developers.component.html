@@ -12,7 +12,9 @@
           {{ profile.status }} {{ profile.company && "at " + profile.company }}
         </p>
         <p>{{ profile.location }}</p>
-        <a routerLink="/developer/profile._id" class="btn btn-primary"
+        <a
+          [routerLink]="['/developer', profile.user._id]"
+          class="btn btn-primary"
           >View Profile</a
         >
       </div>
