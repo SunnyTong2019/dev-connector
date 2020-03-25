@@ -1,0 +1,57 @@
+<section class="container">
+  <h1 class="large text-primary">
+    Posts
+  </h1>
+  <p class="lead">
+    <fa-icon [icon]="faUser"></fa-icon> Welcome to the community!
+  </p>
+
+  <div class="post-form">
+    <div class="bg-primary p">
+      <h3>Say Something...</h3>
+    </div>
+    <form class="form my-1">
+      <textarea
+        name="text"
+        cols="30"
+        rows="5"
+        placeholder="Create a post"
+        required
+      ></textarea>
+      <input type="submit" class="btn btn-dark my-1" value="Submit" />
+    </form>
+  </div>
+
+  <div class="posts">
+    <div class="post bg-white p-1 my-1" *ngFor="let post of posts">
+      <div>
+        <a [routerLink]="['/developer', post.user._id]">
+          <img class="round-img" [src]="post.user.avatar" alt="" />
+          <h4>{{ post.user.name }}</h4>
+        </a>
+      </div>
+      <div>
+        <p class="my-1">
+          {{ post.text }}
+        </p>
+        <p class="post-date">
+          Posted on {{ post.date | date: "medium":"UTC" }}
+        </p>
+        <button type="button" class="btn btn-light">
+          <fa-icon [icon]="faThumbsUp"></fa-icon
+          ><span> {{ post.likes.length }}</span>
+        </button>
+        <button type="button" class="btn btn-light">
+          <fa-icon [icon]="faThumbsDown"></fa-icon>
+        </button>
+        <a [routerLink]="['/post', post._id]" class="btn btn-primary">
+          Discussion
+          <span class="comment-count">{{ post.comments.length }}</span>
+        </a>
+        <button type="button" class="btn btn-danger">
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

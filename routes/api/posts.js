@@ -40,11 +40,28 @@ router.post(
   }
 );
 
-// @route    GET api/posts
+// @route    GET api/posts/me
 // @desc     Get all posts from current user
 // @access   Private
+// router.get("/me", auth, function(req, res) {
+//   Post.find({ user: req.userID })
+//     .populate("user", "name avatar")
+//     .then(posts => {
+//       if (posts.length === 0)
+//         return res.status(400).json({ errors: [{ msg: "No posts" }] });
+//       res.json(posts);
+//     })
+//     .catch(err =>
+//       res.status(500).json({ errors: [{ msg: "Database error" }] })
+//     );
+// });
+
+// @route    GET api/posts
+// @desc     Get all posts
+// @access   Private
 router.get("/", auth, function(req, res) {
-  Post.find({ user: req.userID })
+  Post.find()
+    .populate("user", "name avatar")
     .then(posts => {
       if (posts.length === 0)
         return res.status(400).json({ errors: [{ msg: "No posts" }] });

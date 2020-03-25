@@ -10,6 +10,7 @@ import { AddExperienceComponent } from "./add-experience/add-experience.componen
 import { AddEducationComponent } from "./add-education/add-education.component";
 import { DevelopersComponent } from "./developers/developers.component";
 import { DeveloperComponent } from "./developer/developer.component";
+import { PostsComponent } from "./posts/posts.component";
 
 const routes: Routes = [
   { path: "", component: LandingComponent },
@@ -35,6 +36,11 @@ const routes: Routes = [
   {
     path: "add-education",
     component: AddEducationComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "posts",
+    component: PostsComponent,
     canActivate: [AuthGuardService]
   }
 ];

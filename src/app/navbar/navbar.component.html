@@ -10,6 +10,7 @@
     <li *ngIf="!isAuthed"><a routerLink="/login">Login</a></li>
 
     <!-- if user is authenticated -->
+    <li *ngIf="isAuthed"><a routerLink="/posts">Posts</a></li>
     <li *ngIf="isAuthed"><a routerLink="/dashboard">Dashboard</a></li>
     <li *ngIf="isAuthed"><a (click)="logout()">Logout</a></li>
   </ul>
