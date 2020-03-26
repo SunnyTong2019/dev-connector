@@ -17,8 +17,14 @@
         rows="5"
         placeholder="Create a post"
         required
+        [(ngModel)]="newPost.text"
       ></textarea>
-      <input type="submit" class="btn btn-dark my-1" value="Submit" />
+      <input
+        type="submit"
+        class="btn btn-dark my-1"
+        value="Submit"
+        (click)="submitPost()"
+      />
     </form>
   </div>
 

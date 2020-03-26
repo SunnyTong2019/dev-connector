@@ -31,9 +31,19 @@ router.post(
     };
 
     Post.create(newPost)
-      .then(post => {
-        res.json(post);
-      })
+      .then(post =>
+        // for the returned newly created post, populate user field because user details like name, avatar are needed in the front end to display the post
+        Post.populate(post, { path: "user", select: "name avatar" }, function(
+          error,
+          result
+        ) {
+          if (error)
+            return res
+              .status(500)
+              .json({ errors: [{ msg: "Database error" }] });
+          res.json(result);
+        })
+      )
       .catch(err =>
         res.status(500).json({ errors: [{ msg: "Database error" }] })
       );
@@ -61,6 +71,7 @@ router.post(
 // @access   Private
 router.get("/", auth, function(req, res) {
   Post.find()
+    .sort("-date")
     .populate("user", "name avatar")
     .then(posts => {
       if (posts.length === 0)
