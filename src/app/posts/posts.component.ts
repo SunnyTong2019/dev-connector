@@ -6,7 +6,9 @@ import {
   faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { PostService } from "../post.service";
+import { AuthService } from "../auth.service";
 import { Post } from "../models/Post";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-posts",
@@ -18,15 +20,28 @@ export class PostsComponent implements OnInit {
   faThumbsUp = faThumbsUp;
   faThumbsDown = faThumbsDown;
   faTimes = faTimes;
-  posts: Post[];
+  posts: Post[] = [];
   newPost: Post = new Post("", null, null);
+  userID: string = "";
 
-  constructor(private postService: PostService) {}
+  constructor(
+    private postService: PostService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.postService.getAllPosts().subscribe((res: Post[]) => {
       this.posts = res;
     });
+
+    this.authService.getUserByToken().subscribe(
+      res => {
+        this.userID = res["_id"];
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
   }
 
   submitPost() {
@@ -35,6 +50,13 @@ export class PostsComponent implements OnInit {
       // are sorted by date in descending order
       this.posts.unshift(res);
       this.newPost.text = ""; // clear the text box
+    });
+  }
+
+  deletePost(postID) {
+    this.postService.deletePost(postID).subscribe(res => {
+      console.log(res);
+      this.posts = this.posts.filter(post => post._id !== postID);
     });
   }
 }

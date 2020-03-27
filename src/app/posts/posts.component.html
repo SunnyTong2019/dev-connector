@@ -41,7 +41,7 @@
           {{ post.text }}
         </p>
         <p class="post-date">
-          Posted on {{ post.date | date: "medium":"UTC" }}
+          Posted on {{ post.date | date: "medium":"-0700" }}
         </p>
         <button type="button" class="btn btn-light">
           <fa-icon [icon]="faThumbsUp"></fa-icon
@@ -54,7 +54,13 @@
           Discussion
           <span class="comment-count">{{ post.comments.length }}</span>
         </a>
-        <button type="button" class="btn btn-danger">
+        <!-- logged in user can only delete post they created -->
+        <button
+          *ngIf="userID === post.user._id"
+          type="button"
+          class="btn btn-danger"
+          (click)="deletePost(post._id)"
+        >
           <fa-icon [icon]="faTimes"></fa-icon>
         </button>
       </div>
