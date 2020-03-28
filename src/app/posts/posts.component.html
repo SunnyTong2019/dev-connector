@@ -43,11 +43,19 @@
         <p class="post-date">
           Posted on {{ post.date | date: "medium":"-0700" }}
         </p>
-        <button type="button" class="btn btn-light">
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="likePost(post._id)"
+        >
           <fa-icon [icon]="faThumbsUp"></fa-icon
           ><span> {{ post.likes.length }}</span>
         </button>
-        <button type="button" class="btn btn-light">
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="unlikePost(post._id)"
+        >
           <fa-icon [icon]="faThumbsDown"></fa-icon>
         </button>
         <a [routerLink]="['/post', post._id]" class="btn btn-primary">

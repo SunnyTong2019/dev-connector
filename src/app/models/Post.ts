@@ -7,7 +7,7 @@ export class Post {
     public user: User,
     public date: Date,
     public _id?: string,
-    public likes?: User[],
+    public likes?: any[],
     public comments?: Comment[]
   ) {}
 }
