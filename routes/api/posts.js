@@ -89,6 +89,7 @@ router.get("/", auth, function(req, res) {
 router.get("/:postid", auth, function(req, res) {
   Post.findById(req.params.postid)
     .populate("user", "name avatar")
+    .populate("comments.user", "name avatar")
     .then(post => {
       if (!post)
         return res.status(400).json({ errors: [{ msg: "Post not found" }] });
@@ -216,7 +217,24 @@ router.put(
           { new: true }
         );
       })
-      .then(post => res.json(post))
+      .then(post =>
+        // for the returned post with updated comments array, populate user field because user details like name, avatar are needed in the front end to display the post
+        // And also populate user field inside each comment because user details like name, avatar are needed in the front end to display each comment
+        Post.populate(
+          post,
+          [
+            { path: "user", select: "name avatar" },
+            { path: "comments.user", select: "name avatar" }
+          ],
+          function(error, result) {
+            if (error)
+              return res
+                .status(500)
+                .json({ errors: [{ msg: "Database error" }] });
+            res.json(result);
+          }
+        )
+      )
       .catch(err =>
         res.status(500).json({ errors: [{ msg: "Database error" }] })
       );
