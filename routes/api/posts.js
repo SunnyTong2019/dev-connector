@@ -88,6 +88,7 @@ router.get("/", auth, function(req, res) {
 // @access   Private
 router.get("/:postid", auth, function(req, res) {
   Post.findById(req.params.postid)
+    .populate("user", "name avatar")
     .then(post => {
       if (!post)
         return res.status(400).json({ errors: [{ msg: "Post not found" }] });

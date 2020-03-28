@@ -22,6 +22,7 @@ import { AddEducationComponent } from "./add-education/add-education.component";
 import { DevelopersComponent } from "./developers/developers.component";
 import { DeveloperComponent } from "./developer/developer.component";
 import { PostsComponent } from './posts/posts.component';
+import { PostComponent } from './post/post.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { PostsComponent } from './posts/posts.component';
     AddEducationComponent,
     DevelopersComponent,
     DeveloperComponent,
-    PostsComponent
+    PostsComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,

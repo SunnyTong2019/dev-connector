@@ -11,6 +11,7 @@ import { AddEducationComponent } from "./add-education/add-education.component";
 import { DevelopersComponent } from "./developers/developers.component";
 import { DeveloperComponent } from "./developer/developer.component";
 import { PostsComponent } from "./posts/posts.component";
+import { PostComponent } from "./post/post.component";
 
 const routes: Routes = [
   { path: "", component: LandingComponent },
@@ -41,6 +42,11 @@ const routes: Routes = [
   {
     path: "posts",
     component: PostsComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "post/:postid",
+    component: PostComponent,
     canActivate: [AuthGuardService]
   }
 ];
