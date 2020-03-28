@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { PostService } from "../post.service";
 import { Post } from "../models/Post";
+import { Comment } from "../models/Comment";
 
 @Component({
   selector: "app-post",
@@ -10,6 +11,7 @@ import { Post } from "../models/Post";
 })
 export class PostComponent implements OnInit {
   post: Post;
+  newComment = new Comment("");
 
   constructor(
     private route: ActivatedRoute,
@@ -23,5 +25,13 @@ export class PostComponent implements OnInit {
       console.log(res);
       this.post = res;
     });
+  }
+
+  submitComment(postID) {
+    this.postService
+      .AddCommentToPost(postID, this.newComment)
+      .subscribe(res => {
+        console.log(res);
+      });
   }
 }
