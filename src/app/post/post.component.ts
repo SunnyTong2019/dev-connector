@@ -27,18 +27,21 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     let postID = this.route.snapshot.paramMap.get("postid");
 
-    this.postService.getPost(postID).subscribe((res: Post) => {
-      this.post = res;
+    this.postService.getPost(postID).subscribe(
+      (res: Post) => {
+        this.post = res;
 
-      // sort the comments based on comment date in descending order, so latest comment is displayed on top
-      this.post.comments.sort(function(a, b) {
-        let dateA = new Date(a.date),
-          dateB = new Date(b.date);
-        return dateB.getTime() - dateA.getTime();
-      });
-
-      console.log(this.post);
-    });
+        // sort the comments based on comment date in descending order, so latest comment is displayed on top
+        this.post.comments.sort(function(a, b) {
+          let dateA = new Date(a.date),
+            dateB = new Date(b.date);
+          return dateB.getTime() - dateA.getTime();
+        });
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
 
     this.authService.getUserByToken().subscribe(
       res => {
@@ -51,10 +54,8 @@ export class PostComponent implements OnInit {
   }
 
   submitComment(postID) {
-    this.postService
-      .AddCommentToPost(postID, this.newComment)
-      .subscribe((res: Post) => {
-        console.log(res);
+    this.postService.AddCommentToPost(postID, this.newComment).subscribe(
+      (res: Post) => {
         // update post's comments array and sort it, so UI can re-render
         this.post.comments = res.comments;
         this.post.comments.sort(function(a, b) {
@@ -65,14 +66,16 @@ export class PostComponent implements OnInit {
 
         // clear text box
         this.newComment.text = "";
-      });
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
   }
 
   deleteComment(postID, commentID) {
-    this.postService
-      .DeleteCommentFromPost(postID, commentID)
-      .subscribe((res: Post) => {
-        console.log(res);
+    this.postService.DeleteCommentFromPost(postID, commentID).subscribe(
+      (res: Post) => {
         // update post's comments array and sort it, so UI can re-render
         this.post.comments = res.comments;
         this.post.comments.sort(function(a, b) {
@@ -80,6 +83,10 @@ export class PostComponent implements OnInit {
             dateB = new Date(b.date);
           return dateB.getTime() - dateA.getTime();
         });
-      });
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
   }
 }

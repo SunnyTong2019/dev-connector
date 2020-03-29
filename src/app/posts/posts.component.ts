@@ -30,9 +30,14 @@ export class PostsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.postService.getAllPosts().subscribe((res: Post[]) => {
-      this.posts = res;
-    });
+    this.postService.getAllPosts().subscribe(
+      (res: Post[]) => {
+        this.posts = res;
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
 
     this.authService.getUserByToken().subscribe(
       res => {
@@ -45,41 +50,60 @@ export class PostsComponent implements OnInit {
   }
 
   submitPost() {
-    this.postService.submitPost(this.newPost).subscribe((res: Post) => {
-      // after new post is saved to database, update UI by adding the new post to the beginning of the array as the posts
-      // are sorted by date in descending order
-      this.posts.unshift(res);
-      this.newPost.text = ""; // clear the text box
-    });
+    this.postService.submitPost(this.newPost).subscribe(
+      (res: Post) => {
+        // after new post is saved to database, update UI by adding the new post to the beginning of the array as the posts
+        // are sorted by date in descending order
+        this.posts.unshift(res);
+        this.newPost.text = ""; // clear the text box
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
   }
 
   deletePost(postID) {
-    this.postService.deletePost(postID).subscribe(res => {
-      // after post is deleted in database, remove it from UI
-      this.posts = this.posts.filter(post => post._id !== postID);
-    });
+    this.postService.deletePost(postID).subscribe(
+      res => {
+        // after post is deleted in database, remove it from UI
+        this.posts = this.posts.filter(post => post._id !== postID);
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
   }
 
   likePost(postID) {
-    this.postService.likePost(postID).subscribe((res: Post) => {
-      // When you like post, the backend will return the whole post object with updated likes array
-      // so just need to update the likes array for that post
-      this.posts.forEach(post => {
-        if (post._id === postID) {
-          post.likes = res.likes;
-        }
-      });
-    });
+    this.postService.likePost(postID).subscribe(
+      (res: Post) => {
+        // When you like post, the backend will return the whole post object with updated likes array
+        // so just need to update the likes array for that post
+        this.posts.forEach(post => {
+          if (post._id === postID) {
+            post.likes = res.likes;
+          }
+        });
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
   }
 
   unlikePost(postID) {
-    this.postService.unlikePost(postID).subscribe((res: Post) => {
-      console.log(res);
-      this.posts.forEach(post => {
-        if (post._id === postID) {
-          post.likes = res.likes;
-        }
-      });
-    });
+    this.postService.unlikePost(postID).subscribe(
+      (res: Post) => {
+        this.posts.forEach(post => {
+          if (post._id === postID) {
+            post.likes = res.likes;
+          }
+        });
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
   }
 }

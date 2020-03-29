@@ -44,7 +44,6 @@ export class AddEducationComponent implements OnInit {
           );
         }, 5000);
       },
-
       (err: HttpErrorResponse) => {
         // if fails, display an alert for each error
         let errors = err.error.errors;
