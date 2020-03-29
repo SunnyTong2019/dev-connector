@@ -4,6 +4,7 @@ import { AuthService } from "../auth.service";
 import { Experience } from "../models/Experience";
 import { Education } from "../models/Education";
 import { HttpErrorResponse } from "@angular/common/http";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-dashboard",
@@ -18,7 +19,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private profileService: ProfileService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -65,6 +67,18 @@ export class DashboardComponent implements OnInit {
     this.profileService.deleteEducation(eduID).subscribe(
       res => {
         this.education = this.education.filter(edu => edu["_id"] !== eduID);
+      },
+      (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    );
+  }
+
+  deleteAccount() {
+    this.profileService.deleteAccount().subscribe(
+      res => {
+        localStorage.removeItem("token");
+        this.router.navigate(["/login"]); // when we redirect here, updateNavbar() from app.component.ts will get called which then will update navbar automatically
       },
       (err: HttpErrorResponse) => {
         console.log(err);

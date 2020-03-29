@@ -43,4 +43,8 @@ export class ProfileService {
   public getGithubRepos(username) {
     return this._http.get("api/profile/github/" + username);
   }
+
+  public deleteAccount() {
+    return this._http.delete("api/profile");
+  }
 }

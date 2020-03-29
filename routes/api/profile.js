@@ -3,6 +3,7 @@ const router = express.Router();
 const config = require("config");
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
+const Post = require("../../models/Post");
 const User = require("../../models/User");
 const { check, validationResult } = require("express-validator");
 const request = require("request");
@@ -101,11 +102,16 @@ router.get("/user/:user_id", function(req, res) {
 // @desc     Delete current user, its profile, and its posts
 // @access   Private
 router.delete("/", auth, function(req, res) {
-  // @to-do delete user's posts
+  // delete user's posts first, then delete its profile, then user itself
+  Post.deleteMany({ user: req.userID })
+    .then(results => console.log(results))
+    .catch(err =>
+      res.status(500).json({ errors: [{ msg: "Database error" }] })
+    );
 
   Profile.findOneAndDelete({ user: req.userID })
     .then(profile => User.findOneAndDelete({ _id: req.userID }))
-    .then(user => res.send("User removed"))
+    .then(user => res.json("User removed"))
     .catch(err =>
       res.status(500).json({ errors: [{ msg: "Database error" }] })
     );

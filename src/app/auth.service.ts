@@ -1,5 +1,5 @@
-import { Injectable, EventEmitter, Output } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import { JwtHelperService } from "@auth0/angular-jwt";
 
 const jwtHelper = new JwtHelperService();
@@ -7,8 +7,6 @@ const jwtHelper = new JwtHelperService();
   providedIn: "root"
 })
 export class AuthService {
-  @Output() isAuthed = new EventEmitter();
-
   constructor(private _http: HttpClient) {}
 
   public register(user) {
@@ -25,10 +23,8 @@ export class AuthService {
     // Check whether the token is expired and return true or false
     // isTokenExpired returns true when token is null, so no need to check token existence
     if (!jwtHelper.isTokenExpired(token)) {
-      this.isAuthed.emit(true);
       return true;
     } else {
-      this.isAuthed.emit(false);
       return false;
     }
   }
