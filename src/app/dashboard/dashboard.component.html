@@ -4,86 +4,95 @@
   </h1>
   <p class="lead">Welcome {{ userName }}</p>
 
-  <div *ngIf="hasProfile">
-    <div class="dash-buttons">
-      <a routerLink="/create-profile" class="btn btn-light">Edit Profile</a>
-      <a routerLink="/add-experience" class="btn btn-light">Add Experience</a>
-      <a routerLink="/add-education" class="btn btn-light">Add Education</a>
+  <div *ngIf="isLoading; else elseIfBlock">
+    <img src="assets/img/spinner.gif" class="gif" />
+  </div>
+
+  <ng-template #elseIfBlock>
+    <div *ngIf="hasProfile; else elseBlock">
+      <div class="dash-buttons">
+        <a routerLink="/create-profile" class="btn btn-light">Edit Profile</a>
+        <a routerLink="/add-experience" class="btn btn-light">Add Experience</a>
+        <a routerLink="/add-education" class="btn btn-light">Add Education</a>
+      </div>
+
+      <h2 class="my-2">Experience Credentials</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th class="hide-sm">Title</th>
+            <th class="hide-sm">Years</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let exp of experience">
+            <td>{{ exp.company }}</td>
+            <td class="hide-sm">{{ exp.title }}</td>
+            <td class="hide-sm">
+              {{ exp.from.split("T")[0] | date: "MM/dd/yyyy"
+              }}{{
+                exp.current
+                  ? " - Present"
+                  : exp.to
+                  ? " - " + (exp.to.split("T")[0] | date: "MM/dd/yyyy")
+                  : null
+              }}
+            </td>
+            <td>
+              <button
+                class="btn btn-danger"
+                (click)="deleteExperience(exp._id)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="my-2">Education Credentials</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>School</th>
+            <th class="hide-sm">Degree</th>
+            <th class="hide-sm">Years</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let edu of education">
+            <td>{{ edu.school }}</td>
+            <td class="hide-sm">{{ edu.degree }}</td>
+            <td class="hide-sm">
+              {{ edu.from.split("T")[0] | date: "MM/dd/yyyy"
+              }}{{
+                edu.current
+                  ? " - Present"
+                  : edu.to
+                  ? " - " + (edu.to.split("T")[0] | date: "MM/dd/yyyy")
+                  : null
+              }}
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="deleteEducation(edu._id)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <h2 class="my-2">Experience Credentials</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Company</th>
-          <th class="hide-sm">Title</th>
-          <th class="hide-sm">Years</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let exp of experience">
-          <td>{{ exp.company }}</td>
-          <td class="hide-sm">{{ exp.title }}</td>
-          <td class="hide-sm">
-            {{ exp.from.split("T")[0] | date: "MM/dd/yyyy"
-            }}{{
-              exp.current
-                ? " - Present"
-                : exp.to
-                ? " - " + (exp.to.split("T")[0] | date: "MM/dd/yyyy")
-                : null
-            }}
-          </td>
-          <td>
-            <button class="btn btn-danger" (click)="deleteExperience(exp._id)">
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h2 class="my-2">Education Credentials</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>School</th>
-          <th class="hide-sm">Degree</th>
-          <th class="hide-sm">Years</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let edu of education">
-          <td>{{ edu.school }}</td>
-          <td class="hide-sm">{{ edu.degree }}</td>
-          <td class="hide-sm">
-            {{ edu.from.split("T")[0] | date: "MM/dd/yyyy"
-            }}{{
-              edu.current
-                ? " - Present"
-                : edu.to
-                ? " - " + (edu.to.split("T")[0] | date: "MM/dd/yyyy")
-                : null
-            }}
-          </td>
-          <td>
-            <button class="btn btn-danger" (click)="deleteEducation(edu._id)">
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div *ngIf="!hasProfile">
-    <p class="my-2">
-      No profile yet. Start to
-      <a routerLink="/create-profile">Create Profile</a>.
-    </p>
-  </div>
+    <ng-template #elseBlock>
+      <p class="my-2">
+        No profile yet. Start to
+        <a routerLink="/create-profile">Create Profile</a>.
+      </p>
+    </ng-template>
+  </ng-template>
 
   <div class="my-2">
     <button class="btn btn-danger" (click)="deleteAccount()">

@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   experience: Experience[];
   education: Education[];
   userName: string = "";
+  isLoading: boolean = true;
 
   constructor(
     private profileService: ProfileService,
@@ -38,6 +39,7 @@ export class DashboardComponent implements OnInit {
         this.hasProfile = true;
         this.experience = res["experience"];
         this.education = res["education"];
+        this.isLoading = false;
       },
       (err: HttpErrorResponse) => {
         let errors = err.error.errors;
@@ -47,6 +49,8 @@ export class DashboardComponent implements OnInit {
         } else {
           console.log(err);
         }
+
+        this.isLoading = false;
       }
     );
   }
