@@ -9,7 +9,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "repository": {
@@ -38,10 +39,6 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-regular-svg-icons": "^5.12.1",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
-    "@fortawesome/pro-duotone-svg-icons": "^5.12.1",
-    "@fortawesome/pro-light-svg-icons": "^5.12.1",
-    "@fortawesome/pro-regular-svg-icons": "^5.12.1",
-    "@fortawesome/pro-solid-svg-icons": "^5.12.1",
     "bcrypt": "^4.0.0",
     "config": "^3.3.0",
     "express": "^4.17.1",
@@ -74,5 +71,9 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.7.5"
+  },
+  "engines": {
+    "node": "12.4.0",
+    "npm": "6.9.0"
   }
 }
