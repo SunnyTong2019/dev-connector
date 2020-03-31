@@ -102,19 +102,48 @@ router.get("/user/:user_id", function(req, res) {
 // @desc     Delete current user, its profile, and its posts
 // @access   Private
 router.delete("/", auth, function(req, res) {
-  // delete user's posts first, then delete its profile, then user itself
+  // delete user's posts first, then delete user's comments made on other people's posts, then delete its profile, then user itself
   Post.deleteMany({ user: req.userID })
     .then(results => console.log(results))
     .catch(err =>
       res.status(500).json({ errors: [{ msg: "Database error" }] })
     );
 
-  Profile.findOneAndDelete({ user: req.userID })
-    .then(profile => User.findOneAndDelete({ _id: req.userID }))
-    .then(user => res.json("User removed"))
-    .catch(err =>
-      res.status(500).json({ errors: [{ msg: "Database error" }] })
-    );
+  Post.find()
+    .then(posts => {
+      if (posts.length > 0) {
+        posts.forEach(post => {
+          let targetComments = post.comments.filter(
+            comment => comment.user == req.userID
+          );
+
+          if (targetComments.length > 0) {
+            // if comments exist
+            let comments = post.comments;
+            comments = comments.filter(comment => comment.user != req.userID);
+
+            Post.findOneAndUpdate(
+              { _id: post._id },
+              { $set: { comments: comments } },
+              { new: true }
+            )
+              .then(result => console.log(result))
+              .catch(err =>
+                res.status(500).json({ errors: [{ msg: "Database error" }] })
+              );
+          }
+        });
+      }
+    })
+    .catch(err => res.status(500).json({ errors: [{ msg: "Database error" }] }))
+    .finally(() => {
+      Profile.findOneAndDelete({ user: req.userID })
+        .then(profile => User.findOneAndDelete({ _id: req.userID }))
+        .then(user => res.json("User removed"))
+        .catch(err =>
+          res.status(500).json({ errors: [{ msg: "Database error" }] })
+        );
+    });
 });
 
 // @route    PUT api/profile/experience
