@@ -6,7 +6,7 @@ const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
-const jwtSecret = config.get("jwtSecret");
+const jwtSecret = process.env.jwtSecret || config.get("jwtSecret");
 const gravatar = require("gravatar");
 
 // @router  POST /api/auth/register
