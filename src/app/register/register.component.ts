@@ -34,36 +34,40 @@ export class RegisterComponent implements OnInit {
           alert => alert.alertMessage !== "Passwords do not match!"
         );
       }, 5000);
-    }
+    } else {
+      // submit user to register route
+      this._auth
+        .register({
+          name: this.name,
+          email: this.email,
+          password: this.password
+        })
+        .subscribe(
+          res => {
+            // if register successes, save the token received to localStorage and redirect user to dashboard page
+            localStorage.setItem("token", res.toString());
+            this.router.navigate(["/dashboard"]);
+          },
+          (err: HttpErrorResponse) => {
+            // if register fails, display an alert for each error
+            let errors = err.error.errors;
 
-    // submit user to register route
-    this._auth
-      .register({ name: this.name, email: this.email, password: this.password })
-      .subscribe(
-        res => {
-          // if register successes, save the token received to localStorage and redirect user to dashboard page
-          localStorage.setItem("token", res.toString());
-          this.router.navigate(["/dashboard"]);
-        },
-        (err: HttpErrorResponse) => {
-          // if register fails, display an alert for each error
-          let errors = err.error.errors;
+            if (errors !== null && errors.length > 0) {
+              errors.forEach(error => {
+                this.alerts.push({
+                  alertType: "danger",
+                  alertMessage: error.msg
+                });
 
-          if (errors !== null && errors.length > 0) {
-            errors.forEach(error => {
-              this.alerts.push({
-                alertType: "danger",
-                alertMessage: error.msg
+                setTimeout(() => {
+                  this.alerts = this.alerts.filter(
+                    alert => alert.alertMessage !== error.msg
+                  );
+                }, 5000);
               });
-
-              setTimeout(() => {
-                this.alerts = this.alerts.filter(
-                  alert => alert.alertMessage !== error.msg
-                );
-              }, 5000);
-            });
+            }
           }
-        }
-      );
+        );
+    }
   }
 }
