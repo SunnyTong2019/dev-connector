@@ -3,7 +3,7 @@
 
   <div class="profile-grid my-1">
     <!-- Top -->
-    <div class="profile-top bg-primary p-2">
+    <div class="profile-top bg-primary p-2" *ngIf="profile; else elseBlock">
       <img class="round-img my-1" [src]="profile?.user.avatar" alt="" />
       <h1 class="large">{{ profile?.user.name }}</h1>
       <p class="lead">
@@ -166,5 +166,11 @@
         </div>
       </div>
     </div>
+
+    <ng-template #elseBlock>
+      <div class="profile-top bg-primary p-2">
+        <p class="lead">This developer has NO profile created.</p>
+      </div>
+    </ng-template>
   </div>
 </section>
