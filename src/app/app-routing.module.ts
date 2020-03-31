@@ -5,6 +5,7 @@ import { RegisterComponent } from "./register/register.component";
 import { LoginComponent } from "./login/login.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { AuthGuardService } from "./auth-guard.service";
+import { LoginGuardService } from "./login-guard.service";
 import { CreateProfileComponent } from "./create-profile/create-profile.component";
 import { AddExperienceComponent } from "./add-experience/add-experience.component";
 import { AddEducationComponent } from "./add-education/add-education.component";
@@ -15,8 +16,17 @@ import { PostComponent } from "./post/post.component";
 
 const routes: Routes = [
   { path: "", component: LandingComponent },
-  { path: "register", component: RegisterComponent },
-  { path: "login", component: LoginComponent },
+  {
+    path: "register",
+    component: RegisterComponent,
+    canActivate: [LoginGuardService]
+  },
+  {
+    path: "login",
+    component: LoginComponent,
+    canActivate: [LoginGuardService]
+  },
+
   { path: "developers", component: DevelopersComponent },
   { path: "developer/:userid", component: DeveloperComponent },
   {
