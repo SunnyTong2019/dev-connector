@@ -1,12 +1,11 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const config = require("config");
 const { check, validationResult } = require("express-validator");
 const User = require("../../models/User");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
-const jwtSecret = process.env.jwtSecret || config.get("jwtSecret");
 const gravatar = require("gravatar");
 
 // @router  POST /api/auth/register
@@ -61,7 +60,7 @@ router.post(
       User.create(req.body)
         .then(newUser => {
           // use JWT to return a token
-          let token = jwt.sign({ userID: newUser.id }, jwtSecret, {
+          let token = jwt.sign({ userID: newUser.id }, process.env.jwtSecret, {
             expiresIn: "2h"
           });
           res.json(token);
@@ -113,7 +112,7 @@ router.post(
       bcrypt.compare(password, hash).then(function(result) {
         if (result) {
           // if password matches, return a token
-          let token = jwt.sign({ userID: user.id }, jwtSecret, {
+          let token = jwt.sign({ userID: user.id }, process.env.jwtSecret, {
             expiresIn: "2h"
           });
           res.json(token);

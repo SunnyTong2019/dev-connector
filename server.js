@@ -1,7 +1,6 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const config = require("config");
-const mongoURI = process.env.mongoURI || config.get("mongoURI");
 const authRoute = require("./routes/api/auth");
 const userRoute = require("./routes/api/user");
 const profileRoute = require("./routes/api/profile");
@@ -13,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 mongoose.connect(
-  mongoURI,
+  process.env.mongoURI,
   {
     useNewUrlParser: true,
     useCreateIndex: true,

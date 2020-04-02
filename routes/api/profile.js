@@ -1,6 +1,6 @@
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const config = require("config");
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
 const Post = require("../../models/Post");
@@ -287,11 +287,7 @@ router.delete("/education/:edu_id", auth, function(req, res) {
 // @access   Public
 router.get("/github/:username", function(req, res) {
   const options = {
-    uri: `https://api.github.com/users/${
-      req.params.username
-    }/repos?per_page=5&sort=created:asc&client_id=${process.env
-      .githubClientID || config.get("githubClientID")}&client_secret=${process
-      .env.githubClientSecret || config.get("githubClientSecret")}`,
+    uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${process.env.githubClientID}&client_secret=${process.env.githubClientSecret}`,
     method: "GET",
     headers: {
       "user-agent": "node.js"
