@@ -29,6 +29,7 @@ export class DeveloperComponent implements OnInit {
   faYoutube = faYoutube;
   faInstagram = faInstagram;
   faGithub = faGithub;
+  isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,9 +55,12 @@ export class DeveloperComponent implements OnInit {
               }
             );
         }
+
+        this.isLoading = false;
       },
       (err: HttpErrorResponse) => {
         console.log(err);
+        this.isLoading = false;
       }
     );
   }
